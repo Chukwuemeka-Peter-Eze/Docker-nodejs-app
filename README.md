@@ -81,39 +81,33 @@ This project demonstrates practical experience with:
 
 ---
 
-# Architecture Overview
-
-The application follows a straightforward containerization workflow.
-
-1. The Node.js application source code is stored inside the project directory.
-
-2. Docker reads the Dockerfile.
-
-3. Docker builds a custom image.
-
-4. The image is stored locally on the Docker host.
-
-5. A container is created from the image.
-
-6. Docker maps the application port from the container to the EC2 instance.
-
-7. Users access the running application through a web browser.
-
----
-
 # Architecture Diagram
 
-> **Replace the placeholder below with your Draw.io architecture diagram after exporting it as a PNG.**
-
-```
-images/architecture.png
-```
+The following diagram illustrates the complete deployment workflow.
 
 <p align="center">
-
-![Architecture Diagram](images/architecture.png)
-
+  <img src="images/architecture.gif" alt="Architecture Animation" width="1000">
 </p>
+
+## Architecture Overview
+
+The architecture illustrates the complete deployment lifecycle of the Dockerized Node.js application on AWS.
+
+1. The developer creates the Node.js application, writes the Dockerfile, and pushes the source code to GitHub.
+
+2. An Amazon EC2 instance running Ubuntu Linux serves as the deployment environment.
+
+3. The project repository is cloned from GitHub onto the EC2 instance.
+
+4. Docker Engine builds a reusable Docker image from the application's Dockerfile.
+
+5. A Docker container is created and started from the image using the `docker run` command.
+
+6. The Node.js application runs inside the isolated container and listens on port **3000**.
+
+7. End users access the application through a web browser using the EC2 instance's public IP address and the published port.
+
+This architecture demonstrates how Docker enables consistent application packaging and deployment while leveraging AWS EC2 as the underlying compute infrastructure.
 
 ---
 
