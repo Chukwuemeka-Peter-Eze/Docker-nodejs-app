@@ -12,8 +12,6 @@
 
 </p>
 
----
-
 # Project Overview
 
 This project demonstrates how to containerize a Node.js application using Docker and deploy it in a consistent, isolated, and reproducible environment.
@@ -23,8 +21,6 @@ The primary objective of this project was to gain hands-on experience with the c
 Instead of running the application directly on the operating system, Docker packages the application together with its runtime, dependencies, and configuration into a portable container image. This approach ensures that the application behaves consistently regardless of where it is deployed.
 
 This repository documents the practical implementation, commands executed, architectural design, screenshots, lessons learned, and engineering decisions made throughout the project.
-
----
 
 # Project Objectives
 
@@ -1160,6 +1156,7 @@ If you found this project helpful or would like to discuss Docker, DevOps, Cloud
 
 - **GitHub:** https://github.com/Chukwuemeka-Peter-Eze
 - **LinkedIn:** https://www.linkedin.com/in/chukwuemekapetereze/
+- **Notion Documentation** https://lumpy-bubble-7b0.notion.site/Containers-with-Docker-3a546a96f97480a88041ff2ff82a6b5f?source=copy_link
 
 If you found this repository useful, consider giving it a ⭐ to support the project.
 
