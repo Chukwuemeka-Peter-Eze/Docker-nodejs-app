@@ -14,13 +14,24 @@
 
 # Project Overview
 
-This project demonstrates how to containerize a Node.js application using Docker and deploy it in a consistent, isolated, and reproducible environment.
+This project demonstrates how to containerize and run a full-stack Node.js application using Docker while following containerization best practices.
 
-The primary objective of this project was to gain hands-on experience with the complete Docker image lifecycle—from creating a Dockerfile to building a custom Docker image, running containers, inspecting logs, troubleshooting issues, and managing container execution on an AWS-hosted Linux environment.
+The application consists of three primary components:
 
-Instead of running the application directly on the operating system, Docker packages the application together with its runtime, dependencies, and configuration into a portable container image. This approach ensures that the application behaves consistently regardless of where it is deployed.
+- A frontend built with HTML, JavaScript, and CSS
+- A Node.js backend powered by Express
+- A MongoDB database for persistent data storage
 
-This repository documents the practical implementation, commands executed, architectural design, screenshots, lessons learned, and engineering decisions made throughout the project.
+The project also includes Mongo Express, a web-based MongoDB administration interface, allowing easy database management during development.
+
+The application can be deployed in two ways:
+
+- **Individual Docker containers** connected through a custom Docker network
+- **Multi-container deployment** using Docker Compose
+
+In addition to running the application, this repository documents the complete implementation process, Docker commands, architecture diagrams, troubleshooting steps, lessons learned, screenshots, and deployment workflow.
+
+---
 
 # Project Objectives
 
@@ -30,13 +41,87 @@ The main objectives of this project were to:
 - Learn the difference between Docker images and containers.
 - Create a production-ready Dockerfile for a Node.js application.
 - Build custom Docker images using Docker Build.
-- Run containerized applications with Docker.
+- Run containerized applications with Docker, both individually and via Docker Compose.
+- Connect multiple containers together using a custom Docker network.
 - Expose applications through port mapping.
 - Inspect running containers.
 - Debug containers using Docker logs and interactive shell sessions.
 - Stop, restart, and remove containers.
 - Develop a repeatable deployment workflow using Docker.
 - Document the complete implementation process for future reference.
+
+---
+
+# Application Architecture
+
+The application consists of four major components:
+
+```text
+Browser
+      │
+      ▼
+Node.js Application (Express)
+      │
+      ▼
+MongoDB Database
+      ▲
+      │
+Mongo Express
+```
+
+## Components
+
+### Frontend
+- HTML
+- JavaScript
+- CSS
+
+### Backend
+- Node.js
+- Express
+
+### Database
+- MongoDB
+
+### Database Administration
+- Mongo Express
+
+Docker is used to package each service into isolated containers, ensuring consistency across different environments.
+
+---
+
+# Project Structure
+
+```text
+Docker-nodejs-app/
+│
+├── app/                     # Node.js application source code
+│   ├── images/
+│   ├── index.html
+│   ├── package.json
+│   ├── package-lock.json
+│   └── server.js
+│
+├── architecture/            # Architecture diagram source files
+├── docs/                    # Supporting documentation
+│   ├── commands.md
+│   ├── lessons-learned.md
+│   ├── setup.md
+│   ├── troubleshooting.md
+│   └── video-script.md
+│
+├── images/                  # Architecture diagram assets
+│   └── architecture.gif
+│
+├── screenshots/             # Screenshots of the implementation process
+├── videos/                  # Supporting video assets
+│
+├── .gitignore
+├── docker_commands.md       # Quick-reference Docker command cheat sheet
+├── docker-compose.yaml
+├── Dockerfile
+└── README.md
+```
 
 ---
 
@@ -48,9 +133,11 @@ This project demonstrates practical experience with:
 - Docker Engine
 - Docker Images
 - Docker Containers
+- Docker Networks
 - Dockerfile
 - Docker Build
 - Docker Run
+- Docker Compose
 - Docker CLI
 - Container Lifecycle Management
 - Image Tagging
@@ -71,7 +158,11 @@ This project demonstrates practical experience with:
 | Technology | Purpose |
 |------------|---------|
 | Node.js | Backend Application |
+| Express | Backend Web Framework |
+| MongoDB | Database / Persistent Storage |
+| Mongo Express | Web-based MongoDB Administration |
 | Docker | Containerization Platform |
+| Docker Compose | Multi-Container Orchestration |
 | Docker CLI | Container Management |
 | Dockerfile | Image Definition |
 | AWS EC2 | Cloud Compute Environment |
@@ -94,17 +185,11 @@ The following diagram illustrates the complete deployment workflow.
 The architecture illustrates the complete deployment lifecycle of the Dockerized Node.js application on AWS.
 
 1. The developer creates the Node.js application, writes the Dockerfile, and pushes the source code to GitHub.
-
 2. An Amazon EC2 instance running Ubuntu Linux serves as the deployment environment.
-
 3. The project repository is cloned from GitHub onto the EC2 instance.
-
 4. Docker Engine builds a reusable Docker image from the application's Dockerfile.
-
-5. A Docker container is created and started from the image using the `docker run` command.
-
-6. The Node.js application runs inside the isolated container and listens on port **3000**.
-
+5. A Docker container is created and started from the image using the `docker run` command (or all services are started together with `docker-compose up`).
+6. The Node.js application runs inside an isolated container and communicates with MongoDB and Mongo Express over a Docker network, listening on port **3000**.
 7. End users access the application through a web browser using the EC2 instance's public IP address and the published port.
 
 This architecture demonstrates how Docker enables consistent application packaging and deployment while leveraging AWS EC2 as the underlying compute infrastructure.
@@ -127,10 +212,10 @@ docker build
      ▼
 Docker Image
      │
-docker run
+docker run  /  docker-compose up
      │
      ▼
-Running Docker Container
+Running Docker Container(s)
      │
 Port Mapping
      │
@@ -143,48 +228,6 @@ Web Browser
 
 ---
 
-# Repository Structure
-
-```text
-Docker-nodejs-app
-│
-├── README.md
-├── LICENSE
-├── .gitignore
-│
-├── app/
-│   ├── Node.js Source Code
-│
-├── docker/
-│   └── Dockerfile
-│
-├── architecture/
-│   └── architecture.drawio
-│
-├── docs/
-│   ├── setup.md
-│   ├── troubleshooting.md
-│   └── lessons-learned.md
-│
-├── images/
-│   ├── architecture.png
-│   ├── docker-version.png
-│   ├── docker-build.png
-│   ├── docker-images.png
-│   ├── docker-run.png
-│   ├── docker-ps.png
-│   ├── docker-logs.png
-│   ├── docker-exec.png
-│   ├── application-browser.png
-│   └── docker-stop.png
-│
-├── commands.md
-│
-└── video-script.md
-```
-
----
-
 # Learning Outcomes
 
 By completing this project, I gained practical experience in:
@@ -193,14 +236,14 @@ By completing this project, I gained practical experience in:
 - Writing and understanding Dockerfiles.
 - Packaging applications into portable containers.
 - Running applications in isolated environments.
+- Connecting multiple containers using custom Docker networks.
+- Orchestrating multi-container applications with Docker Compose.
 - Managing Docker containers through the command line.
 - Inspecting application logs.
 - Troubleshooting running containers.
 - Understanding Docker's image-to-container workflow.
 - Deploying containerized applications on AWS infrastructure.
 - Documenting engineering work using GitHub as a professional portfolio.
-
----
 
 ---
 
@@ -214,6 +257,7 @@ Before getting started, ensure the following tools and services are available in
 | Amazon EC2 Instance | Linux virtual machine where Docker was installed |
 | Ubuntu Linux | Operating system used during implementation |
 | Docker Engine | Container runtime used to build and run containers |
+| Docker Compose | Used for multi-container orchestration |
 | Git | Used to clone the project repository |
 | Node.js Application | Sample application used for containerization |
 | Terminal Access | SSH connection to the EC2 instance |
@@ -222,8 +266,6 @@ Before getting started, ensure the following tools and services are available in
 ---
 
 # Environment Details
-
-The project was implemented in a cloud environment hosted on AWS.
 
 | Component | Value |
 |-----------|-------|
@@ -235,43 +277,6 @@ The project was implemented in a cloud environment hosted on AWS.
 | Runtime | Node.js |
 | Version Control | Git |
 | Repository Hosting | GitHub |
-
----
-
-# Project Workflow
-
-The implementation followed a structured workflow that mirrors how containerized applications are typically deployed in modern engineering environments.
-
-```text
-Create Node.js Application
-            │
-            ▼
-Write Dockerfile
-            │
-            ▼
-Build Docker Image
-            │
-            ▼
-Verify Image Creation
-            │
-            ▼
-Run Docker Container
-            │
-            ▼
-Verify Running Container
-            │
-            ▼
-Access Application in Browser
-            │
-            ▼
-Inspect Logs
-            │
-            ▼
-Troubleshoot if Necessary
-            │
-            ▼
-Stop and Remove Container
-```
 
 ---
 
@@ -291,30 +296,109 @@ cd Docker-nodejs-app
 
 ---
 
-# Project Structure Verification
+# Running the Application
 
-Verify that the project contains the required application files before building the Docker image.
+This application can be run in two ways: by starting each container individually and connecting them over a custom Docker network, or by using Docker Compose to bring up all services at once. Both approaches are documented below.
 
-Example:
+## Option 1 — Individual Docker Containers (Custom Docker Network)
+
+**Step 1: Create a Docker network**
+
+```bash
+docker network create mongo-network
+```
+
+**Step 2: Start MongoDB**
+
+```bash
+docker run -d -p 27017:27017 \
+  -e MONGO_INITDB_ROOT_USERNAME=admin \
+  -e MONGO_INITDB_ROOT_PASSWORD=password \
+  --name mongodb \
+  --net mongo-network \
+  mongo
+```
+
+**Step 3: Start Mongo Express**
+
+```bash
+docker run -d -p 8081:8081 \
+  -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin \
+  -e ME_CONFIG_MONGODB_ADMINPASSWORD=password \
+  -e ME_CONFIG_MONGODB_SERVER=mongodb \
+  -e ME_CONFIG_MONGODB_URL=mongodb://mongodb:27017 \
+  --net mongo-network \
+  --name mongo-express \
+  mongo-express
+```
+
+> **Note:** Creating a Docker network is optional. Both containers can be started on the default network by simply omitting the `--net` flag from the `docker run` commands.
+
+**Step 4: Open Mongo Express in your browser**
 
 ```text
-Docker-nodejs-app/
-│
-├── Dockerfile
-├── package.json
-├── package-lock.json
-├── server.js
-├── src/
-└── ...
+http://localhost:8081
+```
+
+**Step 5: Create the database and collection**
+
+In the Mongo Express UI, create a `user-account` database and a `users` collection.
+
+**Step 6: Start the Node.js application locally**
+
+```bash
+cd app
+npm install
+node server.js
+```
+
+**Step 7: Access the Node.js application**
+
+```text
+http://localhost:3000
+```
+
+## Option 2 — Docker Compose
+
+**Step 1: Start MongoDB and Mongo Express**
+
+```bash
+docker-compose -f docker-compose.yaml up
+```
+
+**Step 2: Open Mongo Express in your browser**
+
+```text
+http://localhost:8081
+```
+
+**Step 3: Create the database and collection**
+
+In the Mongo Express UI, create a `user-account` database, then create a `users` collection inside it.
+
+**Step 4: Start the Node.js application**
+
+```bash
+cd app
+npm install
+node server.js
+```
+
+**Step 5: Access the Node.js application**
+
+```text
+http://localhost:3000
 ```
 
 ---
 
-# Dockerfile Overview
+# Building a Standalone Docker Image for the Application
 
-The Dockerfile defines how Docker should package the Node.js application into a reusable image.
+In addition to running the supporting services (MongoDB, Mongo Express), the Node.js application itself can be packaged into its own Docker image using the project's Dockerfile.
 
-The implementation includes:
+## Dockerfile Overview
+
+The Dockerfile defines how Docker should package the Node.js application into a reusable image. The implementation includes:
 
 - Selecting an appropriate Node.js base image
 - Setting the working directory
@@ -325,17 +409,13 @@ The implementation includes:
 
 This process ensures that every container created from the image starts with the same runtime environment and application configuration.
 
----
-
-# Build the Docker Image
-
-Build the application image using Docker.
-
-Example command:
+## Build the Docker Image
 
 ```bash
 docker build -t docker-nodejs-app .
 ```
+
+The dot (`.`) at the end of the command denotes the location of the Dockerfile (the current directory).
 
 Docker performs the following operations:
 
@@ -346,29 +426,7 @@ Docker performs the following operations:
 5. Creates image layers.
 6. Produces a reusable Docker image.
 
----
-
-## Screenshot Placeholder — Building the Docker Image
-
-> Replace the placeholder below with your screenshot showing the image build process.
-
-```text
-images/docker-build.png
-```
-
-<p align="center">
-
-![Docker Build](images/docker-build.png)
-
-</p>
-
----
-
-# Verify the Docker Image
-
-After the build completes successfully, verify that the image exists.
-
-Example command:
+## Verify the Docker Image
 
 ```bash
 docker images
@@ -382,29 +440,7 @@ Expected outcome:
 - Creation time
 - Image size
 
-This confirms that Docker successfully packaged the application into a reusable image.
-
----
-
-## Screenshot Placeholder — Docker Images
-
-```text
-images/docker-images.png
-```
-
-<p align="center">
-
-![Docker Images](images/docker-images.png)
-
-</p>
-
----
-
-# Run the Docker Container
-
-Create and start a container from the newly built image.
-
-Example:
+## Run the Docker Container
 
 ```bash
 docker run -d \
@@ -420,27 +456,7 @@ Explanation:
 - `--name` assigns a readable container name.
 - The final argument specifies the image used to create the container.
 
----
-
-## Screenshot Placeholder — Running the Container
-
-```text
-images/docker-run.png
-```
-
-<p align="center">
-
-![Running Container](images/docker-run.png)
-
-</p>
-
----
-
-# Verify Running Containers
-
-Confirm that the container is running correctly.
-
-Example:
+## Verify Running Containers
 
 ```bash
 docker ps
@@ -455,29 +471,9 @@ Typical information displayed includes:
 - Port mappings
 - Container name
 
-Verifying container status is one of the first troubleshooting steps when deploying Dockerized applications.
+## Access the Application
 
----
-
-## Screenshot Placeholder — Running Containers
-
-```text
-images/docker-ps.png
-```
-
-<p align="center">
-
-![Docker PS](images/docker-ps.png)
-
-</p>
-
----
-
-# Access the Application
-
-Once the container is running successfully, access the application through a web browser using your EC2 instance's public IP address and the mapped application port.
-
-Example:
+Once the container is running, access the application through a web browser using your EC2 instance's public IP address and the mapped application port:
 
 ```text
 http://<EC2-Public-IP>:3000
@@ -493,20 +489,6 @@ If the application loads successfully, it confirms that:
 
 ---
 
-## Screenshot Placeholder — Application Running
-
-```text
-images/application-browser.png
-```
-
-<p align="center">
-
-![Application Running](images/application-browser.png)
-
-</p>
-
----
-
 # Implementation Summary
 
 By this stage of the project, the following milestones have been completed:
@@ -514,15 +496,14 @@ By this stage of the project, the following milestones have been completed:
 - Docker environment prepared on AWS EC2
 - Project source code cloned
 - Dockerfile reviewed
+- Custom Docker network created and supporting services (MongoDB, Mongo Express) connected
 - Custom Docker image successfully built
 - Docker image verified
-- Application container launched
+- Application container launched (individually and via Docker Compose)
 - Running container verified
 - Web application successfully accessed through the browser
 
 These steps establish a repeatable workflow for packaging and deploying Node.js applications using Docker.
-
----
 
 ---
 
@@ -561,25 +542,7 @@ Each instruction creates a new image layer, allowing Docker to cache unchanged l
 
 ---
 
-# Understanding the Image Build Process
-
-When the `docker build` command is executed, Docker performs the following sequence:
-
-1. Reads the Dockerfile from the project directory.
-2. Downloads the required base image if it is not already available locally.
-3. Creates an isolated build environment.
-4. Executes each Dockerfile instruction in order.
-5. Creates immutable image layers.
-6. Packages the application into a Docker image.
-7. Stores the completed image in the local Docker image repository.
-
-This layered approach improves efficiency because Docker can reuse previously built layers when rebuilding the image after small code changes.
-
----
-
 # Docker Image Lifecycle
-
-The lifecycle of the application image can be summarized as follows:
 
 ```text
 Application Source Code
@@ -612,10 +575,6 @@ Understanding this lifecycle helps distinguish between an image (a reusable temp
 
 # Inspecting Container Logs
 
-Container logs provide valuable information for monitoring application startup, diagnosing failures, and troubleshooting runtime issues.
-
-Example command:
-
 ```bash
 docker logs nodejs-app
 ```
@@ -632,25 +591,7 @@ Reviewing logs is often the first step when a container does not behave as expec
 
 ---
 
-## Screenshot Placeholder — Viewing Container Logs
-
-```text
-images/docker-logs.png
-```
-
-<p align="center">
-
-![Docker Logs](images/docker-logs.png)
-
-</p>
-
----
-
 # Accessing the Running Container
-
-Docker allows administrators to open an interactive shell inside a running container for inspection and troubleshooting.
-
-Example:
 
 ```bash
 docker exec -it nodejs-app sh
@@ -664,27 +605,9 @@ Using an interactive shell makes it possible to:
 - Run diagnostic commands
 - Validate environment configuration
 
-Interactive access is especially useful during development and debugging.
-
----
-
-## Screenshot Placeholder — Interactive Shell
-
-```text
-images/docker-exec.png
-```
-
-<p align="center">
-
-![Docker Exec](images/docker-exec.png)
-
-</p>
-
 ---
 
 # Managing the Container Lifecycle
-
-Docker provides commands to control the state of a container throughout its lifecycle.
 
 ## Stop a Running Container
 
@@ -694,8 +617,6 @@ docker stop nodejs-app
 
 Gracefully stops the application and releases allocated resources.
 
----
-
 ## Start an Existing Container
 
 ```bash
@@ -703,8 +624,6 @@ docker start nodejs-app
 ```
 
 Starts a previously stopped container without rebuilding the image.
-
----
 
 ## Restart a Container
 
@@ -714,8 +633,6 @@ docker restart nodejs-app
 
 Stops and immediately starts the container again.
 
----
-
 ## Remove a Container
 
 ```bash
@@ -723,8 +640,6 @@ docker rm nodejs-app
 ```
 
 Deletes the container while leaving the underlying Docker image intact.
-
----
 
 ## Remove a Docker Image
 
@@ -736,27 +651,15 @@ Deletes the locally stored image when it is no longer required.
 
 ---
 
-## Screenshot Placeholder — Stopping the Container
-
-```text
-images/docker-stop.png
-```
-
-<p align="center">
-
-![Stopping Container](images/docker-stop.png)
-
-</p>
-
----
-
 # Common Docker Commands
 
 | Command | Purpose |
 |----------|---------|
+| `docker network create` | Create a custom Docker network |
 | `docker build` | Build a Docker image from a Dockerfile |
 | `docker images` | List available Docker images |
 | `docker run` | Create and start a container |
+| `docker-compose up` | Start all services defined in a compose file |
 | `docker ps` | Display running containers |
 | `docker ps -a` | Display all containers |
 | `docker logs` | View container logs |
@@ -767,11 +670,11 @@ images/docker-stop.png
 | `docker rm` | Remove a container |
 | `docker rmi` | Remove a Docker image |
 
+For a full quick-reference cheat sheet, see [`docker_commands.md`](docker_commands.md).
+
 ---
 
 # Container Debugging Workflow
-
-When troubleshooting a Dockerized application, the following sequence provides a structured approach:
 
 ```text
 Application Not Responding
@@ -804,277 +707,87 @@ Rebuild Image
 Redeploy Container
 ```
 
-Following a consistent debugging workflow helps reduce troubleshooting time and improves operational reliability.
+Following a consistent debugging workflow helps reduce troubleshooting time and improves operational reliability. See [`docs/troubleshooting.md`](docs/troubleshooting.md) for more detail.
 
 ---
 
 # Docker Best Practices Applied
 
-The implementation followed several widely accepted Docker practices:
-
 - Built the application using a dedicated Dockerfile.
 - Used Docker images to package application code and dependencies together.
-- Assigned meaningful names to images and containers.
+- Assigned meaningful names to images, containers, and networks.
+- Used a custom Docker network to enable service-to-service communication.
 - Verified image creation before deployment.
 - Used detached mode to run containers in the background.
 - Published application ports explicitly.
 - Verified container status after startup.
 - Used Docker logs for troubleshooting.
 - Accessed running containers for inspection using an interactive shell.
+- Used Docker Compose for a repeatable, single-command multi-container setup.
 - Maintained a repeatable workflow that can be executed consistently across environments.
-
----
-
-# Skills Demonstrated
-
-This project demonstrates hands-on experience with:
-
-- Docker image creation
-- Dockerfile authoring
-- Container lifecycle management
-- Linux command-line operations
-- Container debugging
-- Image verification
-- Port mapping
-- Docker CLI
-- Application deployment
-- AWS-based container execution
-- Technical documentation
-- Engineering workflow documentation
-
----
-
----
-
-# Implementation Walkthrough
-
-This section documents the complete implementation process followed during the project, from preparing the environment to successfully running the Node.js application inside a Docker container.
-
-The workflow demonstrates how Docker enables applications to be packaged, deployed, and executed consistently across environments.
-
----
-
-## Phase 1 — Environment Preparation
-
-The first phase involved preparing the development environment on an AWS EC2 instance.
-
-Activities completed included:
-
-- Launching an Ubuntu EC2 instance
-- Connecting to the server via SSH
-- Installing Docker Engine
-- Verifying the Docker installation
-- Confirming Docker daemon functionality
-
-### Screenshot Placeholder
-
-```text
-images/docker-version.png
-```
-
-<p align="center">
-
-![Docker Version](images/docker-version.png)
-
-</p>
-
----
-
-## Phase 2 — Preparing the Application
-
-The Node.js application source code was prepared for containerization.
-
-Tasks completed included:
-
-- Reviewing the application structure
-- Verifying package dependencies
-- Understanding the application entry point
-- Preparing the Docker build context
-
-This ensured that all required files were available before creating the Docker image.
-
----
-
-## Phase 3 — Creating the Dockerfile
-
-A Dockerfile was created to define the application's build process.
-
-The Dockerfile specifies:
-
-- The base image
-- Working directory
-- File copy instructions
-- Dependency installation
-- Exposed application port
-- Startup command
-
-By defining these instructions declaratively, the application can be rebuilt consistently whenever needed.
-
-### Screenshot Placeholder
-
-```text
-images/dockerfile-created.png
-```
-
-<p align="center">
-
-![Dockerfile](images/dockerfile-created.png)
-
-</p>
-
----
-
-## Phase 4 — Building the Docker Image
-
-The Docker image was built from the application source code using the Dockerfile.
-
-During this stage Docker:
-
-- Read the Dockerfile
-- Pulled the required base image
-- Executed build instructions
-- Installed dependencies
-- Created image layers
-- Produced a reusable application image
-
-This image became the deployment artifact for the application.
-
-### Screenshot Placeholder
-
-```text
-images/docker-build.png
-```
-
-<p align="center">
-
-![Docker Build](images/docker-build.png)
-
-</p>
-
----
-
-## Phase 5 — Running the Container
-
-After the image was successfully created, a container was launched.
-
-The container:
-
-- Started successfully
-- Exposed the configured application port
-- Ran in an isolated environment
-- Executed independently from the host operating system
-
-This validated that the image was functional and ready for execution.
-
-### Screenshot Placeholder
-
-```text
-images/docker-run.png
-```
-
-<p align="center">
-
-![Running Container](images/docker-run.png)
-
-</p>
-
----
-
-## Phase 6 — Verification
-
-Several verification steps were performed to confirm that the deployment was successful.
-
-Checks included:
-
-- Listing Docker images
-- Confirming container status
-- Accessing the application
-- Reviewing application logs
-- Entering the running container
-- Stopping and restarting the container
-
-These verification activities ensured that both the image and the container behaved as expected.
 
 ---
 
 # Screenshot Gallery
 
-Replace each placeholder below with your corresponding screenshots.
+Screenshots documenting each step of the implementation are available in the [`screenshots/`](screenshots/) folder, including:
 
-| Activity | Screenshot |
-|-----------|------------|
-| Docker Installation Verification | `images/docker-version.png` |
-| Dockerfile Creation | `images/dockerfile-created.png` |
-| Building Docker Image | `images/docker-build.png` |
-| Docker Images | `images/docker-images.png` |
-| Running Container | `images/docker-run.png` |
-| Running Containers | `images/docker-ps.png` |
-| Browser Verification | `images/application-browser.png` |
-| Container Logs | `images/docker-logs.png` |
-| Interactive Shell | `images/docker-exec.png` |
-| Container Stop | `images/docker-stop.png` |
+- Docker installation verification
+- Dockerfile creation
+- Building the Docker image
+- Listing Docker images
+- Running the container
+- Verifying running containers
+- Browser verification of the application
+- Container logs
+- Interactive shell access
+- Stopping the container
 
 ---
 
 # Challenges Encountered
 
-During the implementation of this project, several common challenges were encountered and resolved.
-
 ## Container Failed to Start
 
 Possible causes:
-
 - Incorrect startup command
 - Missing application dependency
 - Incorrect working directory
 
 Resolution:
-
 - Reviewed the Dockerfile
 - Checked application logs
 - Rebuilt the Docker image
 
----
-
 ## Port Already in Use
 
 Possible causes:
-
 - Another application was already listening on the selected port.
 
 Resolution:
-
 - Identified the conflicting process.
 - Stopped the existing service or selected an alternative host port.
-
----
 
 ## Image Build Errors
 
 Possible causes:
-
 - Missing files
 - Incorrect Dockerfile instructions
 - Dependency installation failures
 
 Resolution:
-
 - Reviewed build output.
 - Corrected Dockerfile configuration.
 - Rebuilt the image.
 
----
-
 ## Application Not Accessible
 
 Possible causes:
-
 - Incorrect port mapping
 - Application not listening on the expected port
 - Security group configuration on AWS
 
 Resolution:
-
 - Verified port mapping.
 - Confirmed the application was running.
 - Checked EC2 security group rules.
@@ -1083,12 +796,10 @@ Resolution:
 
 # Lessons Learned
 
-This project provided practical experience in applying containerization concepts to a real application.
-
-Key lessons include:
-
 - Docker images provide a portable and consistent deployment artifact.
 - Containers isolate application dependencies from the host system.
+- Custom Docker networks allow containers to communicate securely by name.
+- Docker Compose simplifies multi-container orchestration compared to running containers individually.
 - Dockerfiles make deployments repeatable and version-controlled.
 - Logging is essential for troubleshooting containerized workloads.
 - Interactive container access simplifies debugging.
@@ -1096,11 +807,11 @@ Key lessons include:
 - Infrastructure documentation improves reproducibility and knowledge sharing.
 - Running workloads on AWS demonstrates how containerization integrates with cloud infrastructure.
 
+See [`docs/lessons-learned.md`](docs/lessons-learned.md) for the extended write-up.
+
 ---
 
 # Future Improvements
-
-Possible enhancements for this project include:
 
 - Implementing multi-stage Docker builds to reduce image size.
 - Running the application as a non-root user.
@@ -1109,17 +820,27 @@ Possible enhancements for this project include:
 - Publishing images to a private container registry.
 - Adding automated testing during image builds.
 - Managing configuration with environment variables and secrets.
-- Orchestrating the application using Docker Compose or Kubernetes.
+- Orchestrating the application using Docker Swarm or Kubernetes.
+
+---
+
+# Additional Documentation
+
+- [`docs/setup.md`](docs/setup.md) — Detailed environment setup instructions
+- [`docs/commands.md`](docs/commands.md) — Extended command reference
+- [`docs/troubleshooting.md`](docs/troubleshooting.md) — Troubleshooting guide
+- [`docs/lessons-learned.md`](docs/lessons-learned.md) — Full lessons learned write-up
+- [`docs/video-script.md`](docs/video-script.md) — Script used for the project walkthrough video
+- [Notion Documentation](https://lumpy-bubble-7b0.notion.site/Containers-with-Docker-3a546a96f97480a88041ff2ff82a6b5f?source=copy_link)
 
 ---
 
 # References
 
-The following resources were used throughout this project:
-
 - Docker Official Documentation
 - Docker CLI Reference
 - Dockerfile Best Practices
+- Docker Compose Documentation
 - Node.js Documentation
 - AWS EC2 Documentation
 
@@ -1133,7 +854,8 @@ The implementation covered:
 
 - Creating a Dockerfile
 - Building a Docker image
-- Running a container
+- Running containers individually via a custom Docker network
+- Running all services together with Docker Compose
 - Verifying deployment
 - Inspecting logs
 - Troubleshooting issues
@@ -1150,8 +872,6 @@ If you found this project helpful or would like to discuss Docker, DevOps, Cloud
 
 - **GitHub:** https://github.com/Chukwuemeka-Peter-Eze
 - **LinkedIn:** https://www.linkedin.com/in/chukwuemekapetereze/
-- **Notion Documentation** https://lumpy-bubble-7b0.notion.site/Containers-with-Docker-3a546a96f97480a88041ff2ff82a6b5f?source=copy_link
+- **Notion Documentation:** https://lumpy-bubble-7b0.notion.site/Containers-with-Docker-3a546a96f97480a88041ff2ff82a6b5f?source=copy_link
 
 If you found this repository useful, consider giving it a ⭐ to support the project.
-
----
