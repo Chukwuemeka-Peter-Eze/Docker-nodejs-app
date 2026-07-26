@@ -182,10 +182,10 @@ This project uses a containerized architecture where each application component 
 
 The application consists of four primary components:
 
-- **Frontend** — HTML, CSS, and JavaScript
-- **Backend** — Node.js with Express
-- **Database** — MongoDB
-- **Database Administration** — Mongo Express
+- **Frontend** - HTML, CSS, and JavaScript
+- **Backend** - Node.js with Express
+- **Database** - MongoDB
+- **Database Administration** - Mongo Express
 
 Docker provides the runtime environment for each component, ensuring that the application behaves consistently regardless of where it is deployed.
 
@@ -274,7 +274,6 @@ Docker-nodejs-app/
 │   └── starting-the-container.png
 │
 ├── .gitignore
-├── docker_commands.md
 ├── Dockerfile
 ├── README.md
 └── LICENSE
@@ -457,7 +456,7 @@ The deployment workflow consists of the following stages:
 
 ---
 
-# Step 1 — Create a Docker Network
+# Step 1: Create a Docker Network
 
 Create a dedicated Docker network that allows the application containers to communicate securely.
 
@@ -470,7 +469,7 @@ docker network create mongo-network
 
 ---
 
-# Step 2 — Start the MongoDB Container
+# Step 2: Start the MongoDB Container
 
 Run MongoDB inside a Docker container.
 
@@ -488,7 +487,7 @@ MongoDB now serves as the application's persistent database.
 
 ---
 
-# Step 3 — Start Mongo Express
+# Step 3: Start Mongo Express
 
 Run Mongo Express and connect it to MongoDB.
 
@@ -507,7 +506,7 @@ Mongo Express provides a web interface for managing MongoDB.
 
 ---
 
-# Step 4 — Verify Docker Installation
+# Step 4: Verify Docker Installation
 
 Before building the application image, verify that Docker is installed correctly.
 
@@ -530,7 +529,7 @@ The detailed Docker information is shown below.
 
 ---
 
-# Step 5 — Review the Dockerfile
+# Step 5: Review the Dockerfile
 
 The application is packaged using a Dockerfile located in the project root.
 
@@ -545,7 +544,7 @@ The screenshot below shows the Dockerfile used in this project.
 
 ---
 
-# Step 6 — Build the Docker Image
+# Step 6: Build the Docker Image
 
 Build the Docker image.
 
@@ -561,7 +560,7 @@ The following screenshot shows a successful image build.
 
 ---
 
-# Step 7 — Verify the Docker Image
+# Step 7: Verify the Docker Image
 
 Verify that the image has been created successfully.
 
@@ -583,7 +582,7 @@ If multiple images exist, the output may resemble the following.
 
 ---
 
-# Step 8 — Start the Application Container
+# Step 8: Start the Application Container
 
 Run the Node.js application.
 
@@ -602,7 +601,7 @@ The screenshot below shows the application container being started.
 
 ---
 
-# Step 9 — Verify Running Containers
+# Step 9: Verify Running Containers
 
 Display all currently running containers.
 
@@ -624,7 +623,7 @@ Additional verification.
 
 ---
 
-# Step 10 — Display All Containers
+# Step 10: Display All Containers
 
 Display both running and stopped containers.
 
@@ -638,7 +637,7 @@ docker ps -a
 
 ---
 
-# Step 11 — Configure MongoDB
+# Step 11: Configure MongoDB
 
 Open Mongo Express.
 
@@ -662,7 +661,7 @@ users
 
 ---
 
-# Step 12 — Run the Node.js Application
+# Step 12: Run the Node.js Application
 
 If running the application directly from the project instead of inside Docker:
 
@@ -676,7 +675,7 @@ node server.js
 
 ---
 
-# Step 13 — Verify the Deployment
+# Step 13: Verify the Deployment
 
 Open the application.
 
@@ -1288,7 +1287,7 @@ If you found this project helpful or would like to discuss Docker, DevOps, Cloud
 
 - **GitHub:** https://github.com/Chukwuemeka-Peter-Eze
 - **LinkedIn:** https://www.linkedin.com/in/chukwuemekapetereze/
-- **Notion Documentation:** https://lumpy-bubble-7b0.notion.site/Containers-with-Docker-3a546a96f97480a88041ff2ff82a6b5f
+- **Notion:** https://lumpy-bubble-7b0.notion.site/Containers-with-Docker-3a546a96f97480a88041ff2ff82a6b5f
 
 ---
 
