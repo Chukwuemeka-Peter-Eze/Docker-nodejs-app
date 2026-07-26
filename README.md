@@ -728,20 +728,137 @@ Following a consistent debugging workflow helps reduce troubleshooting time and 
 
 ---
 
-# Screenshot Gallery
+# Implementation Screenshots
 
-Screenshots documenting each step of the implementation are available in the [`screenshots/`](screenshots/) folder, including:
+The following screenshots document each stage of the Docker implementation process.
 
-- Docker installation verification
-- Dockerfile creation
-- Building the Docker image
-- Listing Docker images
-- Running the container
-- Verifying running containers
-- Browser verification of the application
-- Container logs
-- Interactive shell access
-- Stopping the container
+---
+
+## 1. Docker Installation Verification
+
+<p align="center">
+  <img src="images/Docker-installation-verification.png" alt="Docker Installation Verification" width="1000">
+</p>
+
+---
+
+## 2. Detailed Docker Installation Information
+
+<p align="center">
+  <img src="images/Docker-installation-verification-(detailed info).png" alt="Detailed Docker Installation Information" width="1000">
+</p>
+
+---
+
+## 3. Dockerfile Creation
+
+<p align="center">
+  <img src="images/Dockerfile-creation.png" alt="Dockerfile Creation" width="1000">
+</p>
+
+---
+
+## 4. Building the Docker Image
+
+<p align="center">
+  <img src="images/Building-the-Docker-image.png" alt="Building Docker Image" width="1000">
+</p>
+
+---
+
+## 5. Listing Docker Images
+
+<p align="center">
+  <img src="images/Listing-Docker-images.png" alt="Listing Docker Images" width="1000">
+</p>
+
+---
+
+## 6. Docker Images After Build
+
+<p align="center">
+  <img src="images/Listing-Docker-images (2).png" alt="Docker Images After Build" width="1000">
+</p>
+
+---
+
+## 7. Running the Docker Container
+
+<p align="center">
+  <img src="images/Running-the-container.png" alt="Running Docker Container" width="1000">
+</p>
+
+---
+
+## 8. Verifying Running Containers
+
+<p align="center">
+  <img src="images/Verifying-running-containers.png" alt="Verifying Running Containers" width="1000">
+</p>
+
+---
+
+## 9. Verifying the Running Container
+
+<p align="center">
+  <img src="images/Verifying Running Container.png" alt="Running Container Details" width="1000">
+</p>
+
+---
+
+## 10. Running and Stopped Containers
+
+<p align="center">
+  <img src="images/Running a container and verifying running and stopped container.png" alt="Running and Stopped Containers" width="1000">
+</p>
+
+---
+
+## 11. Listing All Containers
+
+<p align="center">
+  <img src="images/Verifying-all-containers-(running-and-stopped).png" alt="All Containers" width="1000">
+</p>
+
+---
+
+## 12. Listing Stopped Containers
+
+<p align="center">
+  <img src="images/Listing Stopped Containers.png" alt="Stopped Containers" width="1000">
+</p>
+
+---
+
+## 13. Stopping the Container
+
+<p align="center">
+  <img src="images/Stoping the container.png" alt="Stopping Container" width="1000">
+</p>
+
+---
+
+## 14. Starting the Container Again
+
+<p align="center">
+  <img src="images/Starting the container.png" alt="Starting Container" width="1000">
+</p>
+
+---
+
+## 15. Interactive Shell Access
+
+<p align="center">
+  <img src="images/Interactive shell access.png" alt="Interactive Shell Access" width="1000">
+</p>
+
+---
+
+## 16. Browser Verification
+
+<p align="center">
+  <img src="images/Browser-verification-of-the-application.png" alt="Browser Verification" width="1000">
+</p>
 
 ---
 
