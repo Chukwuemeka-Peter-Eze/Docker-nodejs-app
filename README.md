@@ -181,7 +181,6 @@ Docker-nodejs-app/
 │   └── video-script.md
 │
 ├── images/
-│   ├── application-demo.gif
 │   ├── architecture-diagram.png
 │   └── ...
 │
@@ -293,10 +292,10 @@ docker network create mongo-network
 > [!TIP]
 > Docker networks allow containers to communicate using their container names instead of IP addresses.
 
-### Screenshot
+### Image
 
 <p align="center">
-<img src="screenshots/docker-network-created.png" width="1000">
+<img src="images/docker-network-created.png" width="1000">
 </p>
 
 ---
@@ -320,10 +319,10 @@ This command:
 - Exposes port **27017**
 - Connects the container to the custom Docker network
 
-### Screenshot
+### Image
 
 <p align="center">
-<img src="screenshots/mongodb-container-running.png" width="1000">
+<img src="images/mongodb-container-running.png" width="1000">
 </p>
 
 ---
@@ -354,10 +353,10 @@ Create:
 - Database: **user-account**
 - Collection: **users**
 
-### Screenshot
+### Image
 
 <p align="center">
-<img src="screenshots/mongo-express-dashboard.png" width="1000">
+<img src="images/mongo-express-dashboard.png" width="1000">
 </p>
 
 ---
@@ -379,10 +378,10 @@ Docker performs the following tasks:
 5. Creates image layers.
 6. Builds the final Docker image.
 
-### Screenshot
+### Image
 
 <p align="center">
-<img src="screenshots/docker-build-success.png" width="1000">
+<img src="images/docker-build-success.png" width="1000">
 </p>
 
 ---
@@ -397,10 +396,10 @@ docker images
 
 Verify that **docker-nodejs-app** appears in the list.
 
-### Screenshot
+### Image
 
 <p align="center">
-<img src="screenshots/docker-images-list.png" width="1000">
+<img src="images/docker-images-list.png" width="1000">
 </p>
 
 ---
@@ -423,10 +422,10 @@ This command:
 - Maps port **3000**
 - Starts the application in detached mode
 
-### Screenshot
+### Image
 
 <p align="center">
-<img src="screenshots/nodejs-container-running.png" width="1000">
+<img src="images/nodejs-container-running.png" width="1000">
 </p>
 
 ---
@@ -445,10 +444,10 @@ Confirm:
 - Mongo Express is running
 - Node.js application is running
 
-### Screenshot
+### Image
 
 <p align="center">
-<img src="screenshots/docker-ps-output.png" width="1000">
+<img src="images/docker-ps-output.png" width="1000">
 </p>
 
 ---
@@ -468,10 +467,10 @@ If the application loads successfully, it confirms that:
 - Port mapping is configured correctly.
 - The application can communicate with MongoDB.
 
-### Screenshot
+### Image
 
 <p align="center">
-<img src="screenshots/application-running-browser.png" width="1000">
+<img src="images/application-running-browser.png" width="1000">
 </p>
 
 > [!IMPORTANT]
@@ -499,10 +498,10 @@ This command shows:
 - Port mappings
 - Container names
 
-### Screenshot
+### Image
 
 <p align="center">
-<img src="screenshots/docker-ps-output.png" alt="Running Docker Containers" width="1000">
+<img src="images/docker-ps-output.png" alt="Running Docker Containers" width="1000">
 </p>
 
 ---
@@ -543,10 +542,10 @@ From inside the container, you can:
 - Explore the container file system
 - Execute diagnostic commands
 
-### Screenshot
+### Image
 
 <p align="center">
-<img src="screenshots/docker-exec-shell.png" alt="Docker Exec Shell" width="1000">
+<img src="images/docker-exec-shell.png" alt="Docker Exec Shell" width="1000">
 </p>
 
 ---
@@ -558,10 +557,10 @@ Gracefully stop the running application.
 ```bash
 docker stop nodejs-app
 ```
-### Screenshot
+### Image
 
 <p align="center">
-<img src="screenshots/docker-stop.png" alt="Docker Stop" width="1000">
+<img src="images/docker-stop.png" alt="Docker Stop" width="1000">
 </p>
 
 ---
@@ -619,11 +618,11 @@ For a complete command reference, see **docs/commands.md**.
 
 ---
 
-# Screenshot Gallery
+# Image Gallery
 
 The following screenshots document the implementation process from start to finish.
 
-| Step | Screenshot |
+| Step | Image |
 |------|------------|
 | Docker Installation | `docker-installation-verification.png` |
 | Docker Network | `docker-network-created.png` |
@@ -638,7 +637,7 @@ The following screenshots document the implementation process from start to fini
 | Docker Exec | `docker-exec-shell.png` |
 
 > [!TIP]
-> These screenshots provide visual evidence of each major implementation step and help document the complete workflow.
+> These images provide visual evidence of each major implementation step and help document the complete workflow.
 
 ---
 
@@ -782,21 +781,21 @@ More than simply running an application inside a container, this project strengt
 
 # Repository Highlights
 
-✅ Dockerized Node.js Application
+• Dockerized Node.js Application
 
-✅ Custom Docker Image
+• Custom Docker Image
 
-✅ MongoDB Integration
+• MongoDB Integration
 
-✅ Mongo Express Administration
+• Mongo Express Administration
 
-✅ Docker Networking
+• Docker Networking
 
-✅ Container Debugging
+• Container Debugging
 
-✅ Technical Documentation
+• Technical Documentation
 
-✅ GitHub Portfolio Project
+• GitHub Portfolio Project
 
 ---
 
