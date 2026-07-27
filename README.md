@@ -1,18 +1,27 @@
-# Containerizing a Node.js Application Using Docker
+# Dockerizing a Node.js Application with Docker
 
 <p align="center">
 
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Dockerfile](https://img.shields.io/badge/Dockerfile-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Mongo Express](https://img.shields.io/badge/Mongo_Express-404040?style=for-the-badge)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![MIT License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 </p>
+
+---
+
+# Project Preview
+
+<p align="center">
+  <img src="images/application-demo.gif" alt="Application Demo" width="1000">
+</p>
+
+> [!NOTE]
+> This project demonstrates how I containerized a **Node.js application** using Docker, connected it to **MongoDB**, managed the database through **Mongo Express**, and documented the complete workflow from image creation to container management.
 
 ---
 
@@ -22,36 +31,42 @@
 - [Project Objectives](#project-objectives)
 - [Key Features](#key-features)
 - [Application Architecture](#application-architecture)
-- [Technologies Used](#technologies-used)
 - [Project Structure](#project-structure)
-- [Architecture Diagram](#architecture-diagram)
+- [Technologies Used](#technologies-used)
+- [Skills Demonstrated](#skills-demonstrated)
 - [Prerequisites](#prerequisites)
-- [Clone the Repository](#clone-the-repository)
-- [Running the Application](#running-the-application)
+- [Running the Project](#running-the-project)
 - [Building the Docker Image](#building-the-docker-image)
-- [Managing Docker Containers](#managing-docker-containers)
+- [Container Management](#container-management)
+- [Troubleshooting](#troubleshooting)
 - [Screenshot Gallery](#screenshot-gallery)
+- [Challenges Encountered](#challenges-encountered)
 - [Lessons Learned](#lessons-learned)
 - [Future Improvements](#future-improvements)
-- [Documentation](#documentation)
-- [References](#references)
+- [Additional Documentation](#additional-documentation)
+- [Project Summary](#project-summary)
 - [Connect With Me](#connect-with-me)
 
 ---
 
 # Project Overview
 
-This project demonstrates how to containerize a **Node.js application** using Docker while following containerization best practices.
+This project demonstrates the process of packaging a **Node.js application** into a Docker container and running it in a consistent, isolated environment on a local machine.
 
-The application consists of a simple frontend built with **HTML, CSS, and JavaScript**, a backend powered by **Node.js and Express**, and a **MongoDB** database for storing user data. **Mongo Express** is used as a web-based interface for viewing and managing the database during development.
+The application uses **MongoDB** as its database and **Mongo Express** as a web-based administration interface for managing stored data.
 
-The primary goal of this project was to gain hands-on experience with the complete Docker workflow—from writing a Dockerfile and building a Docker image to running, inspecting, debugging, and managing Docker containers in a local development environment.
+During this project, I gained practical experience with:
 
-The entire implementation was completed using **Visual Studio Code**, **Docker Desktop**, and **Git**, before being published to GitHub as part of my DevOps engineering portfolio.
+- Building Docker images from a Dockerfile
+- Running and managing Docker containers
+- Connecting containers using a custom Docker network
+- Configuring MongoDB for persistent data storage
+- Managing MongoDB with Mongo Express
+- Inspecting container logs
+- Accessing running containers for debugging
+- Documenting the complete implementation workflow
 
-> **📌 Project Scope**
->
-> This repository demonstrates **local application containerization using Docker**. It does **not** cover cloud deployment, Docker Compose, Kubernetes, or other container orchestration platforms.
+Rather than focusing only on writing application code, this project emphasizes the practical skills required to package, deploy, manage, and troubleshoot containerized applications using Docker.
 
 ---
 
@@ -59,143 +74,76 @@ The entire implementation was completed using **Visual Studio Code**, **Docker D
 
 The objectives of this project were to:
 
-- Understand Docker architecture and core concepts.
+- Understand Docker's architecture and core components.
 - Learn the difference between Docker images and containers.
-- Write a reusable Dockerfile for a Node.js application.
+- Create a Dockerfile for a Node.js application.
 - Build custom Docker images.
-- Run applications inside Docker containers.
-- Connect the application to a MongoDB database.
-- Use Mongo Express to inspect stored data.
-- Publish application ports.
+- Run containerized applications using Docker.
+- Connect application and database containers through a custom Docker network.
+- Configure MongoDB for persistent storage.
+- Manage MongoDB using Mongo Express.
+- Expose applications through Docker port mapping.
 - Inspect running containers.
-- Debug applications using Docker logs.
-- Access containers using an interactive shell.
-- Manage the complete Docker container lifecycle.
-- Document the implementation process for future reference and portfolio purposes.
+- Debug containers using logs and interactive shell access.
+- Document the implementation process as a reusable engineering reference.
 
 ---
 
 # Key Features
 
 - Dockerized Node.js application
-- Custom Dockerfile
+- Custom Docker image creation
 - MongoDB database integration
 - Mongo Express database management interface
-- Docker image creation
+- Custom Docker networking
 - Container lifecycle management
-- Port mapping
+- Docker CLI operations
 - Interactive container debugging
-- Docker log inspection
 - Technical documentation
-- GitHub portfolio ready
+- GitHub portfolio project
 
 ---
 
 # Application Architecture
 
-The application is composed of four primary components that work together to provide a complete containerized development environment.
+The application consists of four main components working together inside a Docker-based environment.
 
 ```text
-                    Web Browser
-                         │
-                         ▼
-                Node.js Application
-                  (Express Server)
-                         │
-                         ▼
-                 Docker Container
-                         │
-                         ▼
-                  MongoDB Database
-                         ▲
-                         │
-                   Mongo Express
+                    +----------------------+
+                    |      Web Browser     |
+                    +----------+-----------+
+                               |
+                               | HTTP (Port 3000)
+                               |
+                    +----------v-----------+
+                    |   Node.js Application |
+                    |      (Express.js)     |
+                    +----------+-----------+
+                               |
+                  Docker Network Communication
+                               |
+               +---------------+----------------+
+               |                                |
+     +---------v---------+            +---------v---------+
+     |     MongoDB       |            |   Mongo Express   |
+     |    Database       |            | Database Manager  |
+     +-------------------+            +-------------------+
 ```
 
-The Node.js application runs inside a Docker container and communicates with a MongoDB database to store and retrieve application data. Mongo Express provides a browser-based interface for viewing and managing the database during development.
+### Architecture Overview
 
-> **📌 Note**
->
-> MongoDB and Mongo Express were used as supporting services for local development. The focus of this repository is learning Docker fundamentals and containerizing a Node.js application.
+The workflow implemented in this project is as follows:
 
----
+1. The Node.js application source code is stored in this repository.
+2. Docker reads the `Dockerfile` to build a reusable Docker image.
+3. A Docker container is created from the image.
+4. MongoDB runs in its own container and stores application data.
+5. Mongo Express provides a browser-based interface for managing the MongoDB database.
+6. A custom Docker network allows the containers to communicate securely by container name.
+7. Users access the application through their web browser on `http://localhost:3000`.
 
-## Application Components
-
-### Frontend
-
-The user interface consists of:
-
-- HTML
-- CSS
-- JavaScript
-
-The frontend communicates with the backend through HTTP requests.
-
----
-
-### Backend
-
-The backend is built with:
-
-- Node.js
-- Express
-
-The Express server handles incoming requests, processes application logic, and communicates with the MongoDB database.
-
----
-
-### Database
-
-MongoDB serves as the application's database.
-
-It stores user information entered through the web application, allowing data to persist even after the application is refreshed.
-
----
-
-### Database Administration
-
-Mongo Express provides a web-based interface for:
-
-- Viewing databases
-- Browsing collections
-- Managing stored documents
-- Verifying application data
-
-This made it easier to inspect database records during development and testing.
-
----
-
-### Containerization
-
-Docker provides the runtime environment for the application by:
-
-- Packaging the application and its dependencies into a Docker image
-- Running the application inside an isolated container
-- Providing a consistent execution environment
-- Simplifying application deployment and testing
-
----
-
-# Technologies Used
-
-| Technology | Purpose |
-|------------|---------|
-| Node.js | JavaScript runtime for the backend application |
-| Express | Web framework used to build the application server |
-| MongoDB | NoSQL database for storing application data |
-| Mongo Express | Browser-based MongoDB administration interface |
-| Docker | Containerization platform |
-| Docker Engine | Runtime used to build and run containers |
-| Docker CLI | Command-line interface for managing Docker |
-| Dockerfile | Defines how the application image is built |
-| HTML | Frontend structure |
-| CSS | Frontend styling |
-| JavaScript | Client-side functionality |
-| Git | Version control |
-| GitHub | Repository hosting |
-| Visual Studio Code | Development environment |
-| Docker Desktop | Local Docker runtime |
+> [!TIP]
+> Separating the application and database into individual containers follows Docker's "one service per container" best practice and makes each component easier to manage independently.
 
 ---
 
@@ -219,47 +167,63 @@ Docker-nodejs-app/
 │   └── video-script.md
 │
 ├── images/
-│   ├── architecture.gif
-│   ├── docker-installation-verification.png
-│   ├── docker-build.png
-│   ├── docker-images.png
-│   ├── docker-run.png
-│   ├── docker-ps.png
-│   ├── application-running.png
-│   ├── docker-logs.png
-│   └── docker-exec.png
+│   ├── application-demo.gif
+│   ├── architecture-diagram.png
+│   └── ...
+│
+├── screenshots/
 │
 ├── Dockerfile
 ├── docker_commands.md
-├── README.md
-└── .gitignore
+├── .gitignore
+└── README.md
 ```
 
-> **💡 Repository Organization**
->
-> The project is organized into separate folders for source code, documentation, screenshots, and supporting assets to make it easy to navigate and understand the implementation workflow.
+---
+
+# Technologies Used
+
+| Technology | Purpose |
+|------------|---------|
+| Docker | Containerization platform |
+| Docker Engine | Builds and runs containers |
+| Docker CLI | Container management |
+| Dockerfile | Defines the application image |
+| Node.js | JavaScript runtime |
+| Express.js | Backend web framework |
+| MongoDB | Application database |
+| Mongo Express | Web-based MongoDB administration |
+| HTML | Frontend structure |
+| CSS | Frontend styling |
+| JavaScript | Frontend interactivity |
+| Git | Version control |
+| GitHub | Repository hosting and documentation |
 
 ---
 
-# Architecture Diagram
+# Key Skills Demonstrated
 
-The following diagram illustrates the overall architecture of the application.
+This project demonstrates practical experience with:
 
-<p align="center">
-    <img src="images/architecture.gif" alt="Application Architecture Diagram" width="900">
-</p>
+- Docker installation and configuration
+- Building Docker images
+- Creating Docker containers
+- Writing Dockerfiles
+- Container lifecycle management
+- Docker networking
+- MongoDB integration
+- Mongo Express administration
+- Port mapping
+- Container inspection
+- Docker logs
+- Interactive container debugging
+- Linux command-line operations
+- Git version control
+- GitHub documentation
+- Technical documentation and engineering best practices
 
-### Architecture Summary
-
-The workflow consists of the following steps:
-
-1. The user accesses the application through a web browser.
-2. Requests are handled by the Node.js application running inside a Docker container.
-3. The application communicates with MongoDB to store and retrieve data.
-4. Mongo Express provides a web interface for inspecting and managing the database.
-5. Docker ensures the application runs in a consistent and isolated environment.
-
----
+> [!NOTE]
+> This project focuses on understanding the complete lifecycle of a Dockerized Node.js application—from image creation and container deployment to debugging, database integration, and documentation.
 
 # Prerequisites
 
@@ -270,12 +234,11 @@ Before running this project, ensure the following software is installed on your 
 | Docker Desktop | Build and run Docker containers |
 | Docker Engine | Container runtime |
 | Git | Clone the repository |
-| Visual Studio Code | View and edit the project |
+| Node.js & npm | Install and run the application locally |
 | Web Browser | Access the application and Mongo Express |
 
-> **📌 Note**
->
-> Docker Desktop includes Docker Engine and the Docker CLI, so installing Docker Desktop is sufficient for this project.
+> [!NOTE]
+> This project was developed and tested on a local development environment using Docker Desktop. No cloud infrastructure or virtual machines were required.
 
 ---
 
@@ -295,45 +258,38 @@ cd Docker-nodejs-app
 
 ---
 
-## Repository Cloned Successfully
+# Running the Project
 
-<p align="center">
-  <img src="images/git-clone-repository.png" alt="Git Clone Repository" width="900">
-</p>
+The project uses three separate components:
 
-*The repository cloned successfully and is ready for use.*
-
----
-
-# Running the Application
-
-The application depends on three services working together:
-
-- MongoDB
-- Mongo Express
 - Node.js Application
+- MongoDB Database
+- Mongo Express
 
-Start each service using the commands below.
+These components communicate through a custom Docker network.
 
 ---
 
 ## Step 1 — Create a Docker Network
 
-Create a custom Docker network so the containers can communicate with one another.
+Create a custom Docker network so that the containers can communicate with each other.
 
 ```bash
 docker network create mongo-network
 ```
 
+> [!TIP]
+> Docker networks allow containers to communicate using their container names instead of IP addresses.
+
 ### Screenshot
 
 <p align="center">
-  <img src="images/docker-network-create.png" alt="Docker Network Creation" width="900">
+<img src="screenshots/docker-network-created.png" width="1000">
 </p>
 
 ---
 
-## Step 2 — Start MongoDB
+## Step 2 — Start the MongoDB Container
 
 ```bash
 docker run -d \
@@ -345,10 +301,17 @@ docker run -d \
 mongo
 ```
 
+This command:
+
+- Downloads the MongoDB image (if necessary)
+- Creates a MongoDB container
+- Exposes port **27017**
+- Connects the container to the custom Docker network
+
 ### Screenshot
 
 <p align="center">
-  <img src="images/mongodb-container-running.png" alt="MongoDB Container Running" width="900">
+<img src="screenshots/mongodb-container-running.png" width="1000">
 </p>
 
 ---
@@ -366,17 +329,9 @@ docker run -d \
 mongo-express
 ```
 
-### Screenshot
+Mongo Express provides a browser-based interface for managing the MongoDB database.
 
-<p align="center">
-  <img src="images/mongo-express-running.png" alt="Mongo Express Running" width="900">
-</p>
-
----
-
-## Step 4 — Open Mongo Express
-
-Open your browser and navigate to:
+Open:
 
 ```text
 http://localhost:8081
@@ -384,103 +339,63 @@ http://localhost:8081
 
 Create:
 
-- Database: `user-account`
-- Collection: `users`
+- Database: **user-account**
+- Collection: **users**
 
 ### Screenshot
 
 <p align="center">
-  <img src="images/mongo-express-browser.png" alt="Mongo Express Interface" width="900">
+<img src="screenshots/mongo-express-dashboard.png" width="1000">
 </p>
 
 ---
 
-## Step 5 — Start the Node.js Application
+## Step 4 — Build the Docker Image
 
-Navigate to the application directory.
-
-```bash
-cd app
-```
-
-Install the required dependencies.
-
-```bash
-npm install
-```
-
-Start the application.
-
-```bash
-node server.js
-```
-
----
-
-## Application Running
-
-Open your browser.
-
-```text
-http://localhost:3000
-```
-
-If everything is configured correctly, the application should load successfully.
-
-<p align="center">
-  <img src="images/application-running.png" alt="Node.js Application Running" width="900">
-</p>
-
-> **✅ Success**
->
-> At this stage, the application is connected to MongoDB and any submitted data is stored in the database. Mongo Express can be used to verify that the records have been saved successfully.
-
----
-
-# Building the Docker Image
-
-The application can be packaged into a reusable Docker image using the project's Dockerfile.
-
-Run the following command from the project root.
+The Dockerfile packages the Node.js application into a reusable Docker image.
 
 ```bash
 docker build -t docker-nodejs-app .
 ```
 
-Docker performs the following actions:
+Docker performs the following tasks:
 
 1. Reads the Dockerfile.
-2. Downloads the required base image (if necessary).
+2. Downloads the base Node.js image.
 3. Copies the application source code.
 4. Installs project dependencies.
-5. Builds the image layers.
-6. Creates the final Docker image.
+5. Creates image layers.
+6. Builds the final Docker image.
 
 ### Screenshot
 
 <p align="center">
-  <img src="images/docker-build.png" alt="Docker Build Output" width="900">
+<img src="screenshots/docker-build-success.png" width="1000">
 </p>
 
 ---
 
-## Verify the Image
+## Step 5 — Verify the Image
+
+List the available Docker images.
 
 ```bash
 docker images
 ```
 
-You should see the newly created image listed.
+Verify that **docker-nodejs-app** appears in the list.
 
 ### Screenshot
 
 <p align="center">
-  <img src="images/docker-images.png" alt="Docker Images" width="900">
+<img src="screenshots/docker-images-list.png" width="1000">
 </p>
 
 ---
 
-## Run the Docker Image
+## Step 6 — Run the Node.js Container
+
+Start the application container.
 
 ```bash
 docker run -d \
@@ -489,149 +404,186 @@ docker run -d \
 docker-nodejs-app
 ```
 
+This command:
+
+- Creates a new container
+- Maps port **3000**
+- Starts the application in detached mode
+
 ### Screenshot
 
 <p align="center">
-  <img src="images/docker-run.png" alt="Running Docker Container" width="900">
+<img src="screenshots/nodejs-container-running.png" width="1000">
 </p>
 
 ---
 
-## Verify the Running Container
+## Step 7 — Verify the Running Container
+
+Display all running containers.
 
 ```bash
 docker ps
 ```
 
-This confirms that the container is running and the port mapping has been applied successfully.
+Confirm:
+
+- MongoDB is running
+- Mongo Express is running
+- Node.js application is running
 
 ### Screenshot
 
 <p align="center">
-  <img src="images/docker-ps.png" alt="Docker PS Output" width="900">
+<img src="screenshots/docker-ps-output.png" width="1000">
 </p>
 
 ---
 
----
+## Step 8 — Access the Application
 
-# Managing Docker Containers
+Open your browser and navigate to:
 
-Once the application is running, Docker provides several commands to inspect, manage, and troubleshoot containers throughout their lifecycle.
+```text
+http://localhost:3000
+```
+
+If the application loads successfully, it confirms that:
+
+- The Docker image was built successfully.
+- The Node.js container is running.
+- Port mapping is configured correctly.
+- The application can communicate with MongoDB.
+
+### Screenshot
+
+<p align="center">
+<img src="screenshots/application-running-browser.png" width="1000">
+</p>
+
+> [!IMPORTANT]
+> Data entered through the application is stored in MongoDB, allowing it to persist beyond individual application requests.
+
+# Container Management
+
+Once the application is running, Docker provides several commands for monitoring, managing, and troubleshooting containers.
 
 ---
 
 ## View Running Containers
 
-Display all currently running containers.
+Display all running containers.
 
 ```bash
 docker ps
 ```
 
+This command shows:
+
+- Container ID
+- Image
+- Status
+- Port mappings
+- Container names
+
 ### Screenshot
 
 <p align="center">
-  <img src="images/docker-ps.png" alt="Running Docker Containers" width="900">
+<img src="screenshots/docker-ps-output.png" alt="Running Docker Containers" width="1000">
 </p>
 
 ---
 
 ## View Container Logs
 
-Inspect application logs.
+Inspect the application's runtime logs.
 
 ```bash
 docker logs nodejs-app
 ```
 
-Logs are useful for:
+Logs are useful for identifying:
 
-- Verifying application startup
-- Identifying runtime errors
-- Monitoring application output
-- Troubleshooting unexpected behavior
+- Application startup messages
+- Runtime errors
+- Missing dependencies
+- Connection issues
+- Unexpected exceptions
 
 ### Screenshot
 
 <p align="center">
-  <img src="images/docker-logs.png" alt="Docker Container Logs" width="900">
+<img src="screenshots/docker-logs.png" alt="Docker Logs" width="1000">
 </p>
+
+> [!TIP]
+> Checking container logs is often the first step when troubleshooting a containerized application.
 
 ---
 
 ## Access the Running Container
 
-Open an interactive shell inside the container.
+Open an interactive shell inside the running container.
 
 ```bash
 docker exec -it nodejs-app sh
 ```
 
-This allows you to:
+From inside the container, you can:
 
 - Inspect application files
 - Verify installed dependencies
-- Explore the container filesystem
+- Explore the container file system
 - Execute diagnostic commands
 
 ### Screenshot
 
 <p align="center">
-  <img src="images/docker-exec.png" alt="Interactive Docker Shell" width="900">
+<img src="screenshots/docker-exec-shell.png" alt="Docker Exec Shell" width="1000">
 </p>
 
 ---
 
-# Container Lifecycle Management
-
 ## Stop the Container
+
+Gracefully stop the running application.
 
 ```bash
 docker stop nodejs-app
 ```
 
-Gracefully stops the running container.
-
----
-
-## Start the Container
-
-```bash
-docker start nodejs-app
-```
-
-Starts an existing stopped container.
-
 ---
 
 ## Restart the Container
+
+Restart the application container.
 
 ```bash
 docker restart nodejs-app
 ```
 
-Restarts the running container.
-
 ---
 
 ## Remove the Container
+
+Delete the container without deleting the Docker image.
 
 ```bash
 docker rm nodejs-app
 ```
 
-Deletes the container while preserving the Docker image.
-
 ---
 
 ## Remove the Docker Image
+
+Delete the Docker image when it is no longer required.
 
 ```bash
 docker rmi docker-nodejs-app
 ```
 
-Deletes the Docker image from your local machine.
+> [!NOTE]
+> Removing a container does **not** remove the image. Images can be reused to create new containers at any time.
 
 ---
 
@@ -639,183 +591,239 @@ Deletes the Docker image from your local machine.
 
 | Command | Purpose |
 |----------|---------|
-| `docker --version` | Verify Docker installation |
-| `docker info` | Display Docker Engine information |
 | `docker build` | Build a Docker image |
 | `docker images` | List Docker images |
 | `docker run` | Create and start a container |
 | `docker ps` | Display running containers |
-| `docker ps -a` | Display all containers |
 | `docker logs` | View container logs |
-| `docker exec -it` | Open a shell inside a running container |
-| `docker stop` | Stop a running container |
-| `docker start` | Start a stopped container |
+| `docker exec -it` | Access a running container |
+| `docker stop` | Stop a container |
 | `docker restart` | Restart a container |
 | `docker rm` | Remove a container |
 | `docker rmi` | Remove a Docker image |
+| `docker network ls` | List Docker networks |
 
-For a complete command reference, see **`docker_commands.md`**.
+For a complete command reference, see **docs/commands.md**.
 
 ---
 
 # Screenshot Gallery
 
-This repository includes screenshots documenting the implementation process.
+The following screenshots document the implementation process from start to finish.
 
-Examples include:
+| Step | Screenshot |
+|------|------------|
+| Docker Installation | `docker-installation-verification.png` |
+| Docker Network | `docker-network-created.png` |
+| MongoDB Container | `mongodb-container-running.png` |
+| Mongo Express | `mongo-express-dashboard.png` |
+| Docker Build | `docker-build-success.png` |
+| Docker Images | `docker-images-list.png` |
+| Run Container | `nodejs-container-running.png` |
+| Running Containers | `docker-ps-output.png` |
+| Application Running | `application-running-browser.png` |
+| Docker Logs | `docker-logs.png` |
+| Docker Exec | `docker-exec-shell.png` |
 
-- Docker installation verification
-- Docker image build
-- Docker image listing
-- Running Docker containers
-- MongoDB container
-- Mongo Express interface
-- Node.js application running
-- Docker logs
-- Interactive Docker shell
+> [!TIP]
+> These screenshots provide visual evidence of each major implementation step and help document the complete workflow.
 
 ---
 
 # Challenges Encountered
 
-During implementation, several common Docker issues were encountered and resolved.
+During the project, several common Docker issues were encountered and resolved.
 
-### Container Name Conflict
+## Container Name Conflict
 
-Attempting to create a container with an existing name resulted in:
+**Problem**
 
-```text
-Conflict. The container name is already in use.
+```
+Conflict. The container name "/mongodb" is already in use.
 ```
 
+**Cause**
+
+A MongoDB container with the same name already existed.
+
 **Resolution**
 
-- Listed existing containers.
-- Removed or renamed the conflicting container.
-- Restarted the workflow.
+Either remove the existing container:
+
+```bash
+docker rm mongodb
+```
+
+or start the existing container:
+
+```bash
+docker start mongodb
+```
 
 ---
 
-### Port Already in Use
+## Port Already in Use
 
-A running application was already using the selected port.
+**Problem**
+
+Docker could not bind the requested port.
 
 **Resolution**
 
-- Identified the conflicting process.
-- Stopped the process or selected another available port.
+- Stop the conflicting application.
+- Or use another available host port.
 
 ---
 
-### Image Build Errors
+## Application Not Accessible
 
-Some image builds failed because of configuration or dependency issues.
+Possible causes included:
 
-**Resolution**
+- Container not running
+- Incorrect port mapping
+- MongoDB not running
+- Incorrect network configuration
 
-- Reviewed Docker build output.
-- Corrected the Dockerfile.
-- Rebuilt the image.
+The issue was resolved by verifying container status, reviewing logs, and confirming Docker network connectivity.
 
 ---
 
-### Application Not Loading
+## Docker Image Build Errors
 
-The application was inaccessible through the browser.
+Build failures were resolved by:
 
-**Resolution**
-
-- Verified the container was running.
-- Confirmed port mappings.
-- Reviewed container logs.
-- Verified MongoDB connectivity.
+- Reviewing Dockerfile instructions
+- Correcting file paths
+- Rebuilding the image
 
 ---
 
 # Lessons Learned
 
-Completing this project strengthened my understanding of:
+This project reinforced several important containerization concepts.
 
-- Docker fundamentals
-- Docker images and containers
-- Writing Dockerfiles
-- Building Docker images
-- Running containerized applications
-- Connecting applications to MongoDB
-- Managing container lifecycles
-- Inspecting logs
-- Interactive debugging
-- Technical documentation
-- GitHub portfolio development
+- Docker images are reusable templates.
+- Containers are running instances of images.
+- Dockerfiles make deployments repeatable.
+- Custom Docker networks simplify communication between containers.
+- MongoDB integrates seamlessly with Docker containers.
+- Docker logs are essential for troubleshooting.
+- Interactive shell access simplifies debugging.
+- Good documentation improves project maintainability and reproducibility.
 
-The project also reinforced the importance of reproducible environments and container-based application deployment.
+> [!IMPORTANT]
+> One of the biggest lessons from this project was understanding the complete lifecycle of a Dockerized application—from building an image to deploying, managing, debugging, and documenting the application.
 
 ---
 
 # Future Improvements
 
-Potential enhancements include:
+Potential enhancements for future versions include:
 
-- Multi-stage Docker builds
+- Implementing multi-stage Docker builds
 - Running containers as a non-root user
-- Docker health checks
-- Environment variable management
-- Private container registries
-- CI/CD integration
-- Kubernetes deployment
-- Container image security scanning
+- Adding Docker health checks
+- Using environment variables through a `.env` file
+- Publishing images to Docker Hub
+- Integrating CI/CD with GitHub Actions
+- Adding automated container image scanning
+- Deploying the application to a cloud platform after local validation
 
 ---
 
-# Documentation
+# Additional Documentation
 
-Additional project documentation is available in the **docs/** directory.
+This repository includes detailed documentation covering the implementation, commands, troubleshooting process, lessons learned, and project walkthrough.
 
-- `commands.md`
-- `setup.md`
-- `troubleshooting.md`
-- `lessons-learned.md`
-- `video-script.md`
+| Document | Description |
+|----------|-------------|
+| **docs/setup.md** | Step-by-step project setup guide |
+| **docs/commands.md** | Docker command reference used throughout the project |
+| **docs/troubleshooting.md** | Common issues encountered and their resolutions |
+| **docs/lessons-learned.md** | Key concepts, engineering insights, and project reflections |
+| **docs/video-script.md** | Presentation script for the project demonstration video |
 
----
-
-# References
-
-- Docker Documentation
-- Docker CLI Reference
-- Dockerfile Best Practices
-- Node.js Documentation
-- Express Documentation
-- MongoDB Documentation
-- Mongo Express Documentation
+> [!TIP]
+> These documents provide additional context beyond the README and serve as a detailed engineering reference for the project.
 
 ---
 
 # Project Summary
 
-This project demonstrates the complete workflow of containerizing a Node.js application using Docker in a local development environment.
+This project demonstrates the complete process of containerizing a **Node.js application** using Docker and integrating it with **MongoDB** for persistent data storage.
 
-The implementation included:
+Throughout the implementation, I:
 
-- Writing a Dockerfile
-- Building Docker images
-- Running Docker containers
-- Connecting the application to MongoDB
-- Managing data with Mongo Express
-- Inspecting logs
-- Debugging containers
-- Managing the container lifecycle
-- Documenting the implementation
+- Built a custom Docker image from a Dockerfile.
+- Created and managed Docker containers.
+- Configured a custom Docker network for container communication.
+- Integrated MongoDB as the application's database.
+- Used Mongo Express to manage database records through a web interface.
+- Verified application functionality through a web browser.
+- Inspected container logs for troubleshooting.
+- Accessed running containers for debugging using an interactive shell.
+- Documented the complete implementation process and lessons learned.
 
-This repository represents a practical hands-on Docker project and serves as part of my growing DevOps engineering portfolio.
+More than simply running an application inside a container, this project strengthened my understanding of Docker fundamentals, container lifecycle management, networking, debugging, and technical documentation—core skills used in modern software engineering and DevOps workflows.
+
+---
+
+# Repository Highlights
+
+✅ Dockerized Node.js Application
+
+✅ Custom Docker Image
+
+✅ MongoDB Integration
+
+✅ Mongo Express Administration
+
+✅ Docker Networking
+
+✅ Container Debugging
+
+✅ Technical Documentation
+
+✅ GitHub Portfolio Project
+
+---
+
+# Future Enhancements
+
+This project provides a solid foundation for exploring more advanced containerization topics, including:
+
+- Multi-stage Docker builds
+- Docker volumes for persistent storage
+- Docker image optimization
+- Environment variable management with `.env` files
+- Publishing images to Docker Hub
+- CI/CD automation with GitHub Actions
+- Container image security scanning
+- Kubernetes orchestration
+- Cloud deployment after local validation
 
 ---
 
 # Connect With Me
 
-If you'd like to discuss Docker, DevOps, Cloud Engineering, or Software Engineering, feel free to connect.
+If you have feedback, suggestions, or would like to connect, feel free to reach out.
 
-- **GitHub:** https://github.com/Chukwuemeka-Peter-Eze
-- **LinkedIn:** https://www.linkedin.com/in/chukwuemekapetereze/
+**GitHub**
 
-If you found this repository useful, consider giving it a ⭐.
+https://github.com/Chukwuemeka-Peter-Eze
+
+**LinkedIn**
+
+https://www.linkedin.com/in/chukwuemekapetereze/
+
+**Notion Documentation**
+
+https://lumpy-bubble-7b0.notion.site/Containers-with-Docker-3a546a96f97480a88041ff2ff82a6b5f
+
+---
+
+# Support
+
+If you found this repository useful or learned something from it, consider giving it a ⭐.
+
+It helps others discover the project and supports my journey as I continue building my DevOps and Cloud Engineering portfolio.
