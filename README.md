@@ -92,6 +92,20 @@ During this project, the following tasks were completed:
 
 ---
 
+# Project Preview
+
+The screenshots below provide a quick overview of the implementation.
+
+| Docker Image Build | Running Containers |
+|--------------------|--------------------|
+| <img src="images/building-the-docker-image.png" width="450"> | <img src="images/verifying-running-containers.png" width="450"> |
+
+| Application Running | Dockerfile |
+|---------------------|------------|
+| <img src="images/browser-verification-of-the-application.png" width="450"> | <img src="images/dockerfile-creation.png" width="450"> |
+
+---
+
 # Project Objectives
 
 The primary objectives of this project were to:
