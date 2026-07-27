@@ -16,12 +16,18 @@
 
 # Project Preview
 
-<p align="center">
-  <img src="images/application-demo.gif" alt="Application Demo" width="1000">
-</p>
-
 > [!NOTE]
 > This project demonstrates how I containerized a **Node.js application** using Docker, connected it to **MongoDB**, managed the database through **Mongo Express**, and documented the complete workflow from image creation to container management.
+
+The repository includes comprehensive documentation covering:
+
+- Building a custom Docker image from a Dockerfile
+- Running and managing Docker containers
+- Connecting the application to MongoDB
+- Managing the database using Mongo Express
+- Creating a custom Docker network for container communication
+- Troubleshooting common Docker issues
+- Key lessons learned throughout the implementation
 
 ---
 
