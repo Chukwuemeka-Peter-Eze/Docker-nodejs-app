@@ -1,14 +1,15 @@
 # Project Demonstration Video Script
 
-**Project:** Docker Node.js Application on AWS
+**Project:** Dockerizing a Node.js Application with Docker
 
-**Target Duration:** 6–8 Minutes
+**Target Duration:** 7–8 Minutes
 
-**Audience:**
+**Audience**
 
 - Recruiters
 - Hiring Managers
 - DevOps Engineers
+- Platform Engineers
 - Cloud Engineers
 - Software Engineers
 - Technical Interviewers
@@ -17,27 +18,31 @@
 
 # Video Objective
 
-The purpose of this video is to demonstrate the complete process of containerizing and running a Node.js application using Docker on an AWS EC2 instance.
+The purpose of this video is to demonstrate the complete process of containerizing a Node.js application using Docker in a local development environment.
 
-The walkthrough highlights the project architecture, Docker workflow, implementation steps, debugging process, and key engineering lessons learned.
+The walkthrough highlights the project architecture, Docker workflow, image creation, container management, debugging techniques, and the engineering lessons learned throughout the implementation.
+
+Rather than focusing only on the final result, this demonstration emphasizes the reasoning behind each step and the importance of creating repeatable, well-documented engineering workflows.
 
 ---
 
-# Scene 1 — Introduction (30–45 seconds)
+# Scene 1 — Introduction (45 seconds)
 
 ### Screen
 
-Show the GitHub repository homepage.
+Open the GitHub repository homepage.
 
 ### Narration
 
-> Hello everyone, welcome to this project demonstration.
+> Hello everyone, and welcome to this project demonstration.
 
-> In this project, I containerized a Node.js application using Docker and deployed it on an AWS EC2 instance.
+> In this project, I containerized a full-stack Node.js application using Docker and ran it in a local development environment.
 
-> The objective was to understand the complete Docker workflow, including image creation, container management, debugging, and application deployment.
+> The primary objective was to understand the complete Docker workflow—from building a Docker image to creating and managing containers, troubleshooting issues, and documenting the implementation.
 
-> Throughout this project, I documented the implementation process, architecture, commands used, lessons learned, and troubleshooting steps to create a reusable engineering reference.
+> Throughout the project, I created detailed documentation covering the project architecture, Docker commands, troubleshooting procedures, lessons learned, and implementation decisions.
+
+> The goal was not only to build a working application but also to develop practical Docker skills while creating a reusable engineering reference.
 
 ---
 
@@ -45,48 +50,46 @@ Show the GitHub repository homepage.
 
 ### Screen
 
-Display the README.
+Open the README.md file.
 
 Scroll through:
 
 - Project Overview
 - Objectives
 - Technology Stack
-- Repository Structure
+- Project Structure
 
 ### Narration
 
-> This repository documents the complete implementation from preparing the environment to successfully running the application inside a Docker container.
+> This repository documents the complete process of containerizing a Node.js application using Docker.
 
-> It also includes architecture diagrams, setup instructions, troubleshooting guides, and engineering notes.
+> It includes the project overview, architecture diagrams, setup instructions, Docker commands, troubleshooting guides, lessons learned, and implementation screenshots.
+
+> The documentation is designed to help anyone understand the project, reproduce the implementation, and learn the engineering concepts behind each step.
 
 ---
 
-# Scene 3 — Architecture Diagram (1 minute)
+# Scene 3 — Project Architecture (1 minute)
 
 ### Screen
 
-Display:
+Open the architecture diagram (`architecture.gif`).
 
-```
-architecture.png
-```
-
-Zoom into the architecture.
+Zoom into the workflow.
 
 ### Narration
 
-> The workflow begins with the Node.js application source code.
+> The workflow begins with the application source code.
 
-> Docker reads the Dockerfile and builds a reusable image.
+> Docker reads the Dockerfile and packages the application into a reusable Docker image.
 
-> The image is stored locally on the Docker host.
+> That image is then used to create a running Docker container.
 
-> A container is then created from the image.
+> Docker isolates the application and its dependencies inside the container, ensuring that the application behaves consistently across environments.
 
-> The application is exposed through port mapping, allowing users to access it from a web browser.
+> Finally, the application is exposed through port mapping, allowing it to be accessed from a web browser.
 
-> The Docker Engine running on the AWS EC2 instance manages the entire container lifecycle.
+> This architecture demonstrates how Docker simplifies application packaging and deployment while creating consistent and portable runtime environments.
 
 ---
 
@@ -96,7 +99,7 @@ Zoom into the architecture.
 
 Open the Dockerfile.
 
-Highlight each section.
+Highlight each instruction.
 
 ### Narration
 
@@ -107,11 +110,17 @@ Discuss:
 - Base image
 - Working directory
 - Copy instructions
-- Dependency installation
-- Exposed port
+- Installing dependencies
+- Exposing the application port
 - Startup command
 
-Explain why defining infrastructure as code improves consistency and reproducibility.
+Continue:
+
+> Every instruction creates a layer within the Docker image.
+
+> Docker caches these layers, making future builds faster whenever unchanged layers can be reused.
+
+> Defining the runtime environment as code improves consistency, repeatability, and collaboration.
 
 ---
 
@@ -119,7 +128,7 @@ Explain why defining infrastructure as code improves consistency and reproducibi
 
 ### Screen
 
-Show the terminal.
+Open the terminal.
 
 Run:
 
@@ -127,21 +136,19 @@ Run:
 docker build -t docker-nodejs-app .
 ```
 
-### Narration
-
-> Docker reads the Dockerfile and executes each instruction sequentially.
-
-> Each instruction creates a cached image layer, making subsequent builds faster when earlier layers remain unchanged.
-
-> Once the build completes successfully, the application is packaged into a reusable Docker image.
-
-Show:
+Next:
 
 ```bash
 docker images
 ```
 
-Explain the resulting image.
+### Narration
+
+> Docker reads the Dockerfile and executes each instruction sequentially.
+
+> It downloads the required base image if necessary, copies the application files, installs dependencies, and packages everything into a reusable Docker image.
+
+> Using the docker images command, I verify that the image was created successfully before deploying it.
 
 ---
 
@@ -158,19 +165,27 @@ docker run -d \
 docker-nodejs-app
 ```
 
-Show:
+Next:
 
 ```bash
 docker ps
 ```
 
+Then:
+
+```bash
+docker logs nodejs-app
+```
+
 ### Narration
 
-> Here, I create and start a new container from the custom image.
+> Here I create a new container from the Docker image.
 
 > The container runs in detached mode while exposing the application through port 3000.
 
-> Using `docker ps`, I verify that the container is running and confirm the port mapping.
+> Using docker ps, I verify that the container is running correctly.
+
+> I also inspect the container logs to confirm that the application started successfully before opening it in the browser.
 
 ---
 
@@ -178,15 +193,19 @@ docker ps
 
 ### Screen
 
-Open the application in a web browser.
+Open:
 
 ```
 http://localhost:3000
 ```
 
+Demonstrate the application.
+
 ### Narration
 
-> Successfully loading the application confirms that the image was built correctly, the container is running, and network connectivity is functioning as expected.
+> Successfully loading the application confirms that the image was built correctly, the container is running, and the application is accessible through the published port.
+
+> This demonstrates one of Docker's primary advantages: creating consistent and repeatable runtime environments.
 
 ---
 
@@ -200,7 +219,7 @@ Run:
 docker logs nodejs-app
 ```
 
-Next:
+Then:
 
 ```bash
 docker exec -it nodejs-app sh
@@ -208,33 +227,58 @@ docker exec -it nodejs-app sh
 
 ### Narration
 
-> Docker provides several tools for troubleshooting running applications.
+> Docker provides powerful tools for troubleshooting applications.
 
-> Container logs help identify runtime issues, while interactive shell access allows inspection of the container filesystem and application environment.
+> The docker logs command allows me to inspect application startup messages and runtime errors.
 
-> These capabilities simplify debugging during both development and operations.
+> The docker exec command opens an interactive shell inside the running container, making it possible to inspect files, verify dependencies, and troubleshoot configuration issues.
+
+> These tools make diagnosing problems significantly easier during development.
 
 ---
 
-# Scene 9 — Key Takeaways (45 seconds)
+# Scene 9 — Lessons Learned (45 seconds)
 
 ### Screen
 
 Return to the README.
 
-Scroll to the "Lessons Learned" section.
+Scroll to the Lessons Learned section.
 
 ### Narration
 
-> This project reinforced several important concepts.
+> This project reinforced several important engineering concepts.
 
-> I gained hands-on experience building Docker images, managing containers, debugging applications, and documenting deployment workflows.
+> I gained practical experience writing Dockerfiles, building Docker images, managing containers, inspecting logs, debugging running applications, and documenting the implementation.
 
-> It also strengthened my understanding of how containerization supports consistent and repeatable deployments in cloud environments.
+> More importantly, I learned how Docker creates portable, consistent, and repeatable application environments that can later be deployed to cloud platforms or integrated into CI/CD pipelines.
 
 ---
 
-# Scene 10 — Conclusion (30 seconds)
+# Scene 10 — Repository Documentation (45 seconds)
+
+### Screen
+
+Open the `docs` folder.
+
+Briefly show:
+
+- setup.md
+- commands.md
+- troubleshooting.md
+- lessons-learned.md
+
+### Narration
+
+> In addition to implementing the project, I documented every stage of the process.
+
+> These documents include setup instructions, Docker command references, troubleshooting guides, and engineering reflections.
+
+> Good documentation is an essential engineering skill because it improves reproducibility, maintainability, and knowledge sharing.
+
+---
+
+# Scene 11 — Conclusion (30 seconds)
 
 ### Screen
 
@@ -242,40 +286,44 @@ Return to the GitHub repository homepage.
 
 ### Narration
 
-> Thank you for watching this demonstration.
+> Thank you for watching this project demonstration.
 
-> This repository is part of my ongoing DevOps and Cloud Engineering portfolio, where I document practical projects and the lessons learned from implementing them.
+> This repository is part of my DevOps and Cloud Engineering learning journey, where I document hands-on projects and the engineering concepts behind them.
 
-> Feedback and suggestions are always welcome. Thank you for your time.
+> My goal is not only to build working solutions but also to understand the technologies deeply and communicate the implementation process through clear technical documentation.
+
+> Thank you for your time, and I welcome any feedback or suggestions.
 
 ---
 
 # Recording Checklist
 
-Before recording, confirm the following:
+Before recording, verify the following:
 
 - Terminal font is readable.
 - Browser zoom is appropriate.
-- Sensitive information (keys, tokens, passwords, IP addresses if desired) is hidden.
+- Sensitive information (API keys, tokens, passwords, or environment variables) is hidden.
 - Docker commands execute successfully.
-- Application loads correctly in the browser.
+- The application loads correctly in the browser.
 - Architecture diagram is ready.
-- README is complete.
-- Screenshots have been added to the repository.
-- No unnecessary applications or notifications are visible.
+- README documentation is complete.
+- Screenshots are available in the repository.
+- No unnecessary applications or notifications are visible during recording.
 
 ---
 
 # Suggested Repository Assets
 
-To make the repository more engaging, consider including:
+To make the repository more engaging, include:
 
-- `architecture.png` exported from Draw.io
+- architecture.gif
 - Terminal screenshots
-- Browser screenshots of the running application
-- A short animated GIF of the application startup
-- A thumbnail image for the demo video
-- Complete project documentation (`README.md`, `commands.md`, `setup.md`, `troubleshooting.md`, `lessons-learned.md`)
+- Docker build screenshots
+- Docker container screenshots
+- Browser screenshot of the running application
+- Short animated GIF demonstrating the application
+- Complete project documentation
+- Well-organized README with architecture diagrams and screenshots
 
 ---
 
@@ -287,17 +335,22 @@ To make the repository more engaging, consider including:
 | Project Overview | 0:45 |
 | Architecture | 1:00 |
 | Dockerfile | 1:00 |
-| Image Build | 1:00 |
+| Build Image | 1:00 |
 | Run Container | 1:00 |
 | Application Demo | 0:45 |
 | Debugging | 1:00 |
 | Lessons Learned | 0:45 |
+| Documentation | 0:45 |
 | Conclusion | 0:30 |
 
-**Total Duration:** Approximately 7–8 minutes
+**Total Duration:** Approximately **7–8 minutes**
 
 ---
 
 # Final Notes
 
-This demonstration is intended to showcase not only the successful deployment of a Dockerized Node.js application but also the engineering thought process behind the implementation. Emphasizing architecture, repeatability, troubleshooting, and documentation helps present the project as a practical engineering case study rather than simply a completed exercise.
+This demonstration is intended to showcase not only the successful containerization of a Node.js application but also the engineering thought process behind the implementation.
+
+By emphasizing architecture, repeatability, troubleshooting, and technical documentation, the project demonstrates practical Docker skills and a disciplined approach to software engineering rather than simply completing a tutorial.
+
+The knowledge gained from this project provides a strong foundation for future topics such as Docker Compose, Kubernetes, CI/CD pipelines, container registries, and cloud deployments.

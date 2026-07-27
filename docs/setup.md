@@ -1,6 +1,8 @@
 # Project Setup Guide
 
-This document provides a step-by-step guide for reproducing the Docker Node.js application deployment on an AWS EC2 instance. Following these instructions will allow you to provision the environment, install Docker, build the application image, run the container, and verify that the application is working correctly.
+This document provides a step-by-step guide for setting up and running the Dockerized Node.js application in a local development environment. By following these instructions, you will install Docker (if necessary), clone the project, build the Docker image, run the application container, and verify that the application is working correctly.
+
+The guide is intended to provide a repeatable workflow for building, running, and managing containerized applications during local development.
 
 ---
 
@@ -8,9 +10,8 @@ This document provides a step-by-step guide for reproducing the Docker Node.js a
 
 - Architecture Overview
 - Prerequisites
-- AWS Infrastructure
-- Launch an EC2 Instance
-- Connect to the Server
+- Development Environment
+- Prepare the Local Environment
 - Install Docker
 - Verify Docker Installation
 - Clone the Repository
@@ -39,10 +40,7 @@ Developer
 GitHub Repository
       │
       ▼
-AWS EC2 Instance
-      │
-      ▼
-Ubuntu Linux
+Local Development Machine
       │
       ▼
 Docker Engine
@@ -66,90 +64,63 @@ Web Browser
 
 Before beginning, ensure the following requirements are available.
 
-- AWS Account
-- Amazon EC2 Instance
-- Ubuntu Linux Server
-- SSH Client
-- Docker Engine
+- Docker Desktop or Docker Engine
 - Git
+- Node.js (optional, for local application testing)
+- Visual Studio Code (recommended)
+- Terminal or Command Prompt
 - Internet Connectivity
 - Web Browser
 
 ---
 
-# AWS Infrastructure
+# Development Environment
 
-The project was deployed using the following cloud components.
+The project was implemented and tested in a local development environment.
 
 | Component | Description |
 |-----------|-------------|
-| Cloud Provider | Amazon Web Services |
-| Compute Service | Amazon EC2 |
-| Operating System | Ubuntu Linux |
+| Development Environment | Local Machine |
 | Container Runtime | Docker Engine |
 | Source Code Repository | GitHub |
 | Application Runtime | Node.js |
+| Database | MongoDB |
+| Database Administration | Mongo Express |
+| Version Control | Git |
 
 ---
 
-# Step 1 — Launch an EC2 Instance
+# Step 1: Prepare the Local Development Environment
 
-Create an Ubuntu EC2 instance from the AWS Management Console.
+Ensure Docker Engine (or Docker Desktop) is installed and running on your computer.
 
-Recommended configuration:
-
-- Ubuntu Server LTS
-- t2.micro (or equivalent)
-- Public IP enabled
-- Security Group configured
-- SSH access enabled
-
-Open the necessary inbound ports.
-
-Example:
-
-| Port | Purpose |
-|------|----------|
-| 22 | SSH |
-| 3000 | Node.js Application |
-
----
-
-# Step 2 — Connect to the Server
-
-Connect to the EC2 instance using SSH.
-
-Example:
+Verify the installation:
 
 ```bash
-ssh -i your-key.pem ubuntu@<EC2-Public-IP>
+docker --version
 ```
 
-After connecting, verify the server is accessible.
+Expected output:
 
----
+```text
+Docker version xx.x.x
+```
 
-# Step 3 — Update the System
-
-Update installed packages.
+Also verify that Git is installed:
 
 ```bash
-sudo apt update
-
-sudo apt upgrade -y
+git --version
 ```
 
-Keeping the operating system updated helps ensure compatibility and security.
+Once these tools are available, you're ready to clone and run the project.
 
 ---
 
-# Step 4 — Install Docker
+# Step 2: Install Docker
 
-Install Docker Engine on the EC2 instance.
+If Docker is not already installed on your local machine, install Docker Engine or Docker Desktop according to your operating system.
 
-After installation, start the Docker service if required.
-
-Verify the installation.
+After installation, verify that Docker is running before continuing.
 
 ```bash
 docker --version
@@ -163,7 +134,7 @@ Docker version xx.x.x
 
 ---
 
-# Step 5 — Verify Docker Engine
+# Step 3: Verify Docker Engine
 
 Check that the Docker daemon is running.
 
@@ -175,9 +146,9 @@ The output should display Docker Engine information, including the number of ima
 
 ---
 
-# Step 6 — Clone the Repository
+# Step 4: Clone the Repository
 
-Clone the project repository.
+Clone the project repository to your local development environment.
 
 ```bash
 git clone https://github.com/Chukwuemeka-Peter-Eze/Docker-nodejs-app.git
@@ -191,7 +162,7 @@ cd Docker-nodejs-app
 
 ---
 
-# Step 7 — Review the Project Structure
+# Step 5: Review the Project Structure
 
 Ensure the repository contains the required project files.
 
@@ -217,7 +188,7 @@ docs/
 
 ---
 
-# Step 8 — Build the Docker Image
+# Step 6: Build the Docker Image
 
 Build the application image.
 
@@ -236,7 +207,7 @@ Docker will:
 
 ---
 
-# Step 9 — Verify the Image
+# Step 7: Verify the Image
 
 Confirm that the image was successfully created.
 
@@ -248,7 +219,7 @@ Verify that the repository name and image tag appear in the list.
 
 ---
 
-# Step 10 — Run the Application
+# Step 8: Run the Application
 
 Create and start the container.
 
@@ -263,7 +234,7 @@ The application should now be running inside an isolated Docker container.
 
 ---
 
-# Step 11 — Verify the Running Container
+# Step 9: Verify the Running Container
 
 Display active containers.
 
@@ -279,7 +250,7 @@ Confirm:
 
 ---
 
-# Step 12 — Access the Application
+# Step 10: Access the Application
 
 Open a browser and navigate to:
 
@@ -296,7 +267,7 @@ The successful loading of the application confirms that:
 
 ---
 
-# Step 13 — Inspect Container Logs
+# Step 11: Inspect Container Logs
 
 View the application logs.
 
@@ -312,7 +283,7 @@ Logs are useful for:
 
 ---
 
-# Step 14 — Access the Running Container
+# Step 12: Access the Running Container
 
 Open an interactive shell.
 
@@ -324,7 +295,7 @@ Use this shell to inspect the container filesystem, verify application files, an
 
 ---
 
-# Step 15 — Stop the Container
+# Step 13: Stop the Container
 
 Gracefully stop the running application.
 
@@ -334,7 +305,7 @@ docker stop nodejs-app
 
 ---
 
-# Step 16 — Restart the Container
+# Step 14: Restart the Container
 
 Restart the previously stopped container.
 
@@ -344,7 +315,7 @@ docker start nodejs-app
 
 ---
 
-# Step 17 — Remove the Container
+# Step 15: Remove the Container
 
 Delete the container when it is no longer required.
 
@@ -356,7 +327,7 @@ This removes the container while keeping the Docker image available for future d
 
 ---
 
-# Step 18 — Remove the Docker Image (Optional)
+# Step 16: Remove the Docker Image (Optional)
 
 Delete the locally stored image.
 
@@ -368,7 +339,7 @@ Only perform this step if the image is no longer needed.
 
 ---
 
-# Step 19 — Clean Up Unused Docker Resources
+# Step 17: Clean Up Unused Docker Resources
 
 Remove unused Docker resources.
 
@@ -388,23 +359,23 @@ This helps reclaim disk space on the host system.
 
 # Deployment Verification Checklist
 
-Use the following checklist to confirm a successful deployment.
-
 - Docker installed successfully
 - Docker Engine running
-- Repository cloned
-- Docker image built
-- Image verified
-- Container started
+- Repository cloned locally
+- Docker image built successfully
+- Image verified using `docker images`
+- Container started successfully
 - Container visible in `docker ps`
-- Application accessible through browser
-- Logs available
-- Interactive shell accessible
+- Application accessible at `http://localhost:3000`
+- Application logs available
+- Interactive shell accessible using `docker exec`
 
 ---
 
 # Summary
 
-This setup guide demonstrates the complete process of deploying a containerized Node.js application on AWS using Docker. By following these steps, the application can be built, deployed, verified, and managed consistently across environments, providing a repeatable workflow suitable for development, testing, and future production deployments.
+This setup guide demonstrates the complete process of building, running, and managing a containerized Node.js application using Docker in a local development environment.
 
-The workflow emphasizes reproducibility, portability, and operational simplicity—key principles of modern containerized application development.
+By following these steps, the application can be cloned, built into a Docker image, deployed as a container, verified, and managed using standard Docker commands. The workflow provides a repeatable process suitable for local development, testing, and future deployment to other environments.
+
+The project emphasizes reproducibility, portability, and operational simplicity—core principles of modern containerized application development and a strong foundation for future topics such as Docker Compose, Kubernetes, CI/CD pipelines, and cloud-based deployments.

@@ -1,6 +1,8 @@
 # Troubleshooting Guide
 
-This document outlines common issues that may occur while building, running, and managing the Dockerized Node.js application. It also provides likely causes, diagnostic steps, and recommended resolutions based on the implementation performed in this project.
+This document outlines common issues that may occur while building, running, and managing the Dockerized Node.js application in a local development environment. It provides likely causes, diagnostic steps, and recommended resolutions based on the implementation completed during this project.
+
+The goal is to encourage a structured troubleshooting process using Docker's built-in tools rather than relying on trial-and-error fixes.
 
 ---
 
@@ -63,7 +65,7 @@ Redeploy Container
 
 ---
 
-# Issue 1 — Docker Command Not Found
+# Issue 1: Docker Command Not Found
 
 ## Symptoms
 
@@ -87,7 +89,7 @@ If Docker is not installed, install Docker Engine before continuing.
 
 ---
 
-# Issue 2 — Docker Service Not Running
+# Issue 2: Docker Service Not Running
 
 ## Symptoms
 
@@ -111,7 +113,7 @@ Start the Docker service and verify it is running before executing Docker comman
 
 ---
 
-# Issue 3 — Docker Image Build Failed
+# Issue 3: Docker Image Build Failed
 
 ## Symptoms
 
@@ -136,7 +138,7 @@ Correct the reported issue and rebuild the image.
 
 ---
 
-# Issue 4 — Image Not Found
+# Issue 4: Image Not Found
 
 ## Symptoms
 
@@ -160,7 +162,7 @@ If necessary, rebuild the image.
 
 ---
 
-# Issue 5 — Container Does Not Start
+# Issue 5: Container Does Not Start
 
 ## Symptoms
 
@@ -185,7 +187,7 @@ Review the logs and correct the application or Dockerfile before rebuilding.
 
 ---
 
-# Issue 6 — Port Already Allocated
+# Issue 6: Port Already Allocated
 
 ## Symptoms
 
@@ -215,7 +217,7 @@ docker run -d -p 8080:3000 docker-nodejs-app
 
 ---
 
-# Issue 7 — Application Cannot Be Accessed
+# Issue 7: Application Cannot Be Accessed
 
 ## Symptoms
 
@@ -229,8 +231,9 @@ Browser displays:
 
 - Container not running
 - Incorrect port mapping
-- Application listening on another port
-- EC2 security group not allowing inbound traffic
+- Application listening on a different port
+- The application failed to start correctly
+- Another process is already using the required port
 
 ## Diagnostic Commands
 
@@ -242,14 +245,17 @@ docker logs nodejs-app
 
 Verify:
 
+Verify:
+
 - Container status
 - Port mapping
 - Application startup
-- AWS security group configuration
+- Browser is accessing the correct URL (`http://localhost:3000`)
+- No other application is using the same port
 
 ---
 
-# Issue 8 — Container Stops Unexpectedly
+# Issue 8: Container Stops Unexpectedly
 
 ## Symptoms
 
@@ -274,7 +280,7 @@ Resolve the underlying application issue before restarting the container.
 
 ---
 
-# Issue 9 — Unable to Enter the Container
+# Issue 9: Unable to Enter the Container
 
 ## Symptoms
 
@@ -298,7 +304,7 @@ Restart the container if necessary.
 
 ---
 
-# Issue 10 — Changes Not Reflected
+# Issue 10: Changes Not Reflected
 
 ## Symptoms
 
@@ -326,7 +332,7 @@ Run a new container from the updated image.
 
 ---
 
-# Issue 11 — Docker Logs Show Errors
+# Issue 11: Docker Logs Show Errors
 
 ## Diagnostic Command
 
@@ -346,7 +352,7 @@ Logs often provide the quickest indication of the underlying problem.
 
 ---
 
-# Issue 12 — Interactive Debugging
+# Issue 12: Interactive Debugging
 
 Access the running container.
 
@@ -364,7 +370,7 @@ Useful checks include:
 
 ---
 
-# Issue 13 — Image Consumes Excessive Disk Space
+# Issue 13: Image Consumes Excessive Disk Space
 
 ## Diagnostic Command
 
@@ -388,7 +394,7 @@ docker system prune -a
 
 ---
 
-# Issue 14 — Too Many Stopped Containers
+# Issue 14: Too Many Stopped Containers
 
 List all containers.
 
@@ -404,7 +410,7 @@ docker container prune
 
 ---
 
-# Issue 15 — General Docker Cleanup
+# Issue 15: General Docker Cleanup
 
 Free unused resources.
 
@@ -423,6 +429,49 @@ To remove unused volumes.
 ```bash
 docker volume prune
 ```
+
+---
+
+# Issue 16: Container Name Already in Use
+
+## Symptoms
+
+```text
+docker: Error response from daemon:
+Conflict. The container name "/mongodb" is already in use.
+```
+
+## Possible Cause
+
+A container with the specified name already exists, even if it is currently stopped.
+
+## Diagnostic Commands
+
+```bash
+docker ps -a
+```
+
+## Resolution
+
+**Option 1 — Start the existing container**
+
+```bash
+docker start mongodb
+```
+
+**Option 2 — Remove the existing container if it is no longer needed**
+
+```bash
+docker rm mongodb
+```
+
+**Option 3 — Create a new container with a different name**
+
+```bash
+docker run --name mongodb-new ...
+```
+
+Using descriptive and unique container names helps prevent naming conflicts during development.
 
 ---
 
@@ -455,7 +504,7 @@ Before rebuilding the project, verify the following:
 - Container starts successfully.
 - Container appears in `docker ps`.
 - Correct ports are mapped.
-- AWS security group allows application traffic.
+- The application is accessible through `http://localhost:3000`.
 - Application responds through the browser.
 - Logs contain no critical errors.
 
@@ -476,4 +525,6 @@ Before rebuilding the project, verify the following:
 
 # Conclusion
 
-Effective troubleshooting is a critical DevOps skill. By following a structured diagnostic process and using Docker's built-in tools, most issues can be identified and resolved quickly. This guide provides a repeatable approach to diagnosing container, image, and runtime problems while maintaining a reliable and reproducible deployment workflow.
+Effective troubleshooting is an essential DevOps skill. By following a structured diagnostic process and using Docker's built-in tools, most container, image, and runtime issues can be identified and resolved efficiently.
+
+The troubleshooting techniques documented here reinforce the importance of understanding the complete container lifecycle, interpreting error messages, inspecting logs, and validating application behavior before making configuration changes. Developing this disciplined approach is fundamental to building reliable containerized applications and lays the groundwork for more advanced technologies such as Docker Compose, Kubernetes, and cloud-native deployments.

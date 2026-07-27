@@ -1,8 +1,10 @@
 # Lessons Learned
 
-This document captures the key technical concepts, engineering practices, and practical insights gained while containerizing and deploying a Node.js application using Docker on AWS.
+This document captures the key technical concepts, engineering practices, and practical insights gained while containerizing and running a Node.js application using Docker in a local development environment.
 
-The goal is to reflect not only on *what* was done, but also on *why* these practices are important in modern software engineering and DevOps workflows.
+The goal is to reflect not only on *what* was accomplished, but also on *why* these practices are important in modern software engineering, containerization, and DevOps workflows.
+
+Rather than focusing solely on Docker commands, this document summarizes the engineering concepts, deployment principles, debugging techniques, and operational practices reinforced throughout the project.
 
 ---
 
@@ -12,7 +14,7 @@ The goal is to reflect not only on *what* was done, but also on *why* these prac
 - Key Concepts Learned
 - Engineering Insights
 - Docker Fundamentals
-- AWS Integration
+- Local Development Experience
 - Debugging Experience
 - Best Practices Applied
 - Challenges and Solutions
@@ -24,9 +26,9 @@ The goal is to reflect not only on *what* was done, but also on *why* these prac
 
 # Project Overview
 
-This project focused on packaging a Node.js application into a Docker container and running it on an AWS EC2 instance.
+This project focused on packaging a Node.js application into a Docker container and running it in a local development environment using Docker.
 
-Throughout the implementation, I worked through the complete container lifecycle, including:
+Throughout the implementation, I worked through the complete Docker container lifecycle, from building images to running containers, inspecting logs, troubleshooting issues, and documenting the entire workflow.
 
 - Creating a Dockerfile
 - Building a Docker image
@@ -75,7 +77,7 @@ This improves:
 
 By packaging the application and its dependencies together, the application becomes portable across environments.
 
-Whether deployed on a developer's laptop, an AWS EC2 instance, or another Linux server, the same Docker image can be used without changing the application itself.
+Whether deployed on a developer's laptop, a Linux server, or another compatible environment running Docker, the same Docker image can be used without changing the application itself.
 
 This reduces the common "it works on my machine" problem.
 
@@ -152,23 +154,25 @@ This project strengthened practical experience with:
 - Image tagging
 - Container lifecycle management
 - Linux command-line operations
-- AWS-based deployments
+- Local container deployment
 
 ---
 
-# AWS Integration
+# Local Development Experience
 
-Running the project on AWS provided additional cloud engineering experience.
+Running the project locally provided valuable hands-on experience with Docker and containerized application development.
 
 Key takeaways include:
 
-- Deploying applications on cloud infrastructure
-- Connecting to Linux servers via SSH
-- Managing applications remotely
-- Understanding security group considerations
-- Verifying application accessibility over the network
+- Building Docker images from source code
+- Running applications inside isolated containers
+- Managing container lifecycles
+- Configuring Docker networking
+- Verifying application accessibility through published ports
+- Inspecting container logs and runtime behavior
+- Troubleshooting application issues using Docker CLI tools
 
-This demonstrated how Docker fits naturally into cloud-based deployment workflows.
+Working in a local development environment made it possible to experiment safely, understand Docker's core concepts, and build confidence before moving on to more advanced deployment environments such as cloud infrastructure and container orchestration platforms.
 
 ---
 
@@ -236,7 +240,7 @@ This project showcases practical experience with:
 
 - Docker
 - Node.js
-- AWS EC2
+- Local Docker Development
 - Linux
 - Containerization
 - Infrastructure documentation
@@ -273,4 +277,6 @@ Completing this project reinforced that containerization is more than simply run
 
 The experience of building images, managing containers, troubleshooting issues, and documenting the implementation has strengthened my understanding of modern application deployment practices and provided a solid foundation for more advanced topics such as multi-container architectures, private registries, orchestration platforms, and automated deployment pipelines.
 
-This project represents an important step in developing practical DevOps and cloud engineering skills through hands-on implementation and thorough technical documentation.
+This project represents an important step in developing practical Docker, containerization, and DevOps skills through hands-on implementation, structured troubleshooting, and thorough technical documentation.
+
+The knowledge gained from this project provides a strong foundation for future topics such as Docker Compose, Kubernetes, CI/CD pipelines, Infrastructure as Code, and cloud-based deployments.
