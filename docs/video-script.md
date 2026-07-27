@@ -181,7 +181,7 @@ docker ps
 Open the application in a web browser.
 
 ```
-http://<EC2-Public-IP>:3000
+http://localhost:3000
 ```
 
 ### Narration

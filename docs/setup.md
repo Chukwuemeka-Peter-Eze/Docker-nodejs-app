@@ -284,7 +284,7 @@ Confirm:
 Open a browser and navigate to:
 
 ```text
-http://<EC2-Public-IP>:3000
+http://localhost:3000
 ```
 
 The successful loading of the application confirms that:
