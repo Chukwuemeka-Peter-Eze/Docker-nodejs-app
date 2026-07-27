@@ -45,7 +45,7 @@ The repository includes comprehensive documentation covering:
 - [Building the Docker Image](#building-the-docker-image)
 - [Container Management](#container-management)
 - [Troubleshooting](#troubleshooting)
-- [Screenshot Gallery](#screenshot-gallery)
+- [Image Gallery](#image-gallery)
 - [Challenges Encountered](#challenges-encountered)
 - [Lessons Learned](#lessons-learned)
 - [Future Improvements](#future-improvements)
