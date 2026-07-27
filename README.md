@@ -106,6 +106,18 @@ The objectives of this project were to:
 
 # Application Architecture
 
+The following diagram illustrates the architecture of the Dockerized Node.js application and how the different components communicate with one another.
+
+<p align="center">
+  <img src="images/architecture-diagram.png" alt="Dockerized Node.js Application Architecture" width="1000">
+</p>
+
+*Figure 1: High-level architecture of the Dockerized Node.js application, showing the interaction between the web browser, Node.js application, MongoDB, Mongo Express, and the Docker network.*
+
+---
+
+## Architecture Overview
+
 The application consists of four main components working together inside a Docker-based environment.
 
 ```text
@@ -130,20 +142,16 @@ The application consists of four main components working together inside a Docke
      +-------------------+            +-------------------+
 ```
 
-### Architecture Overview
+## How the Architecture Works
 
-The workflow implemented in this project is as follows:
-
-1. The Node.js application source code is stored in this repository.
-2. Docker reads the `Dockerfile` to build a reusable Docker image.
-3. A Docker container is created from the image.
-4. MongoDB runs in its own container and stores application data.
-5. Mongo Express provides a browser-based interface for managing the MongoDB database.
-6. A custom Docker network allows the containers to communicate securely by container name.
-7. Users access the application through their web browser on `http://localhost:3000`.
+1. The user accesses the application through a web browser using **http://localhost:3000**.
+2. The request is received by the **Node.js application** running inside a Docker container.
+3. The application stores and retrieves data from the **MongoDB** container.
+4. **Mongo Express** connects to MongoDB and provides a browser-based interface for viewing and managing the database.
+5. A custom **Docker network** enables secure communication between the containers using their container names instead of IP addresses.
 
 > [!TIP]
-> Separating the application and database into individual containers follows Docker's "one service per container" best practice and makes each component easier to manage independently.
+> This architecture follows Docker's best practice of running one primary service per container. Separating the application, database, and database administration interface makes the solution easier to maintain, troubleshoot, and extend in the future.
 
 ---
 
@@ -171,11 +179,9 @@ Docker-nodejs-app/
 │   ├── architecture-diagram.png
 │   └── ...
 │
-├── screenshots/
-│
-├── Dockerfile
-├── docker_commands.md
 ├── .gitignore
+├── Dockerfile
+├── LICENSE
 └── README.md
 ```
 
@@ -223,7 +229,7 @@ This project demonstrates practical experience with:
 - Technical documentation and engineering best practices
 
 > [!NOTE]
-> This project focuses on understanding the complete lifecycle of a Dockerized Node.js application—from image creation and container deployment to debugging, database integration, and documentation.
+> This project focuses on understanding the complete lifecycle of a Dockerized Node.js application, from image creation and container deployment to debugging, database integration, and documentation.
 
 # Prerequisites
 
@@ -270,7 +276,7 @@ These components communicate through a custom Docker network.
 
 ---
 
-## Step 1 — Create a Docker Network
+## Step 1: Create a Docker Network
 
 Create a custom Docker network so that the containers can communicate with each other.
 
@@ -289,7 +295,7 @@ docker network create mongo-network
 
 ---
 
-## Step 2 — Start the MongoDB Container
+## Step 2: Start the MongoDB Container
 
 ```bash
 docker run -d \
@@ -316,7 +322,7 @@ This command:
 
 ---
 
-## Step 3 — Start Mongo Express
+## Step 3: Start Mongo Express
 
 ```bash
 docker run -d \
@@ -350,7 +356,7 @@ Create:
 
 ---
 
-## Step 4 — Build the Docker Image
+## Step 4: Build the Docker Image
 
 The Dockerfile packages the Node.js application into a reusable Docker image.
 
@@ -375,7 +381,7 @@ Docker performs the following tasks:
 
 ---
 
-## Step 5 — Verify the Image
+## Step 5: Verify the Image
 
 List the available Docker images.
 
@@ -393,7 +399,7 @@ Verify that **docker-nodejs-app** appears in the list.
 
 ---
 
-## Step 6 — Run the Node.js Container
+## Step 6: Run the Node.js Container
 
 Start the application container.
 
@@ -401,6 +407,7 @@ Start the application container.
 docker run -d \
 -p 3000:3000 \
 --name nodejs-app \
+--network mongo-network \
 docker-nodejs-app
 ```
 
@@ -418,7 +425,7 @@ This command:
 
 ---
 
-## Step 7 — Verify the Running Container
+## Step 7: Verify the Running Container
 
 Display all running containers.
 
@@ -440,7 +447,7 @@ Confirm:
 
 ---
 
-## Step 8 — Access the Application
+## Step 8: Access the Application
 
 Open your browser and navigate to:
 
@@ -510,12 +517,6 @@ Logs are useful for identifying:
 - Connection issues
 - Unexpected exceptions
 
-### Screenshot
-
-<p align="center">
-<img src="screenshots/docker-logs.png" alt="Docker Logs" width="1000">
-</p>
-
 > [!TIP]
 > Checking container logs is often the first step when troubleshooting a containerized application.
 
@@ -551,6 +552,11 @@ Gracefully stop the running application.
 ```bash
 docker stop nodejs-app
 ```
+### Screenshot
+
+<p align="center">
+<img src="screenshots/docker-stop.png" alt="Docker Stop" width="1000">
+</p>
 
 ---
 
@@ -622,7 +628,7 @@ The following screenshots document the implementation process from start to fini
 | Run Container | `nodejs-container-running.png` |
 | Running Containers | `docker-ps-output.png` |
 | Application Running | `application-running-browser.png` |
-| Docker Logs | `docker-logs.png` |
+| Docker Stop | `docker-stop.png` |
 | Docker Exec | `docker-exec-shell.png` |
 
 > [!TIP]
