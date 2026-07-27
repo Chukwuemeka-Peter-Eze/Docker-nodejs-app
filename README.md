@@ -109,7 +109,7 @@ The objectives of this project were to:
 The following diagram illustrates the architecture of the Dockerized Node.js application and how the different components communicate with one another.
 
 <p align="center">
-  <img src="images/architecture-diagram.png" alt="Dockerized Node.js Application Architecture" width="1000">
+  <img src="images/architecture-diagram.gif" alt="Dockerized Node.js Application Architecture" width="1000">
 </p>
 
 *Figure 1: High-level architecture of the Dockerized Node.js application, showing the interaction between the web browser, Node.js application, MongoDB, Mongo Express, and the Docker network.*
